@@ -38,7 +38,11 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yjx-iX-1F0" userLabel="Like Button">
-                                                    <rect key="frame" x="347" y="4" width="30" height="28"/>
+                                                    <rect key="frame" x="333" y="4" width="44" height="44"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="44" id="Alb-Gi-Jzy"/>
+                                                        <constraint firstAttribute="width" constant="44" id="zS3-mW-OQ2"/>
+                                                    </constraints>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal" image="like_button_on"/>
                                                 </button>
@@ -46,10 +50,10 @@
                                             <constraints>
                                                 <constraint firstItem="tec-nE-5ln" firstAttribute="top" secondItem="7t5-0h-PcN" secondAttribute="top" constant="4" id="4s9-rq-kvT"/>
                                                 <constraint firstItem="tec-nE-5ln" firstAttribute="bottom" secondItem="NMD-Gz-1d1" secondAttribute="bottom" constant="8" id="8Tc-qr-PRB"/>
-                                                <constraint firstItem="tec-nE-5ln" firstAttribute="trailing" secondItem="yjx-iX-1F0" secondAttribute="trailing" id="Fko-Wf-A4H"/>
+                                                <constraint firstItem="tec-nE-5ln" firstAttribute="trailing" secondItem="yjx-iX-1F0" secondAttribute="trailing" id="OSh-eJ-srI"/>
                                                 <constraint firstItem="tec-nE-5ln" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="NMD-Gz-1d1" secondAttribute="trailing" constant="8" id="PIL-Rx-JTW"/>
+                                                <constraint firstItem="yjx-iX-1F0" firstAttribute="top" secondItem="tec-nE-5ln" secondAttribute="top" id="PeG-Oe-o2X"/>
                                                 <constraint firstAttribute="trailing" secondItem="tec-nE-5ln" secondAttribute="trailing" constant="16" id="T9j-JF-4Ki"/>
-                                                <constraint firstItem="yjx-iX-1F0" firstAttribute="top" secondItem="tec-nE-5ln" secondAttribute="top" id="cW9-Ja-fDW"/>
                                                 <constraint firstItem="tec-nE-5ln" firstAttribute="leading" secondItem="7t5-0h-PcN" secondAttribute="leading" constant="16" id="rKw-YG-swo"/>
                                                 <constraint firstAttribute="bottom" secondItem="tec-nE-5ln" secondAttribute="bottom" constant="4" id="vNL-l1-KPf"/>
                                                 <constraint firstItem="NMD-Gz-1d1" firstAttribute="leading" secondItem="tec-nE-5ln" secondAttribute="leading" constant="8" id="zAz-OL-vKF"/>
@@ -90,7 +94,7 @@
     </scenes>
     <resources>
         <image name="0" width="200" height="132"/>
-        <image name="like_button_on" width="30" height="27.333333969116211"/>
+        <image name="like_button_on" width="44" height="44"/>
         <namedColor name="YP Black">
             <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
