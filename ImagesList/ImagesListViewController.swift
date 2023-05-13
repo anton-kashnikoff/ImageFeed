@@ -24,6 +24,10 @@ class ImagesListViewController: UIViewController {
     }()
     
     // MARK: - UIViewController
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
