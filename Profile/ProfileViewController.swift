@@ -16,4 +16,8 @@ final class ProfileViewController: UIViewController {
 
     @IBAction private func didTapLogoutButton() {
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
 }
