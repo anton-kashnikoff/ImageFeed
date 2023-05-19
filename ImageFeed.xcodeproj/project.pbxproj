@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB06D2232A1642A1006356A1 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB06D2222A1642A1006356A1 /* SingleImageViewController.swift */; };
 		CB1C6DBB2A0D240D000DE952 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1C6DBA2A0D240D000DE952 /* ImagesListCell.swift */; };
 		CB866D592A0A63E900B82387 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB866D582A0A63E900B82387 /* UIColor+Extensions.swift */; };
 		CB9DCFD02A139963006C7150 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9DCFCF2A139963006C7150 /* ProfileViewController.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CB06D2222A1642A1006356A1 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		CB1C6DBA2A0D240D000DE952 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		CB866D582A0A63E900B82387 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		CB9DCFCF2A139963006C7150 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -43,6 +45,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CB06D2242A164B72006356A1 /* SingleImageView */ = {
+			isa = PBXGroup;
+			children = (
+				CB06D2222A1642A1006356A1 /* SingleImageViewController.swift */,
+			);
+			path = SingleImageView;
+			sourceTree = "<group>";
+		};
 		CB1C6DBC2A0D243B000DE952 /* ImagesList */ = {
 			isa = PBXGroup;
 			children = (
@@ -71,6 +81,7 @@
 		CBBC24D42A07F4AE00B056C5 = {
 			isa = PBXGroup;
 			children = (
+				CB06D2242A164B72006356A1 /* SingleImageView */,
 				CB9DCFD12A13A88D006C7150 /* Profile */,
 				CB866D572A0A63C600B82387 /* Helpers */,
 				CB1C6DBC2A0D243B000DE952 /* ImagesList */,
@@ -174,6 +185,7 @@
 				CB9DCFD02A139963006C7150 /* ProfileViewController.swift in Sources */,
 				CBBC24E52A07F4AE00B056C5 /* ImagesListViewController.swift in Sources */,
 				CBBC24E12A07F4AE00B056C5 /* AppDelegate.swift in Sources */,
+				CB06D2232A1642A1006356A1 /* SingleImageViewController.swift in Sources */,
 				CB1C6DBB2A0D240D000DE952 /* ImagesListCell.swift in Sources */,
 				CBBC24E32A07F4AE00B056C5 /* SceneDelegate.swift in Sources */,
 				CB866D592A0A63E900B82387 /* UIColor+Extensions.swift in Sources */,

@@ -12,6 +12,8 @@ class ImagesListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     
     // MARK: - Private Properties
+    private let showSingleImageSegueIdentifier = "ShowSingleImage"
+    
     private let photosName = Array(0..<20).map {
         "\($0)"
     }
@@ -26,6 +28,17 @@ class ImagesListViewController: UIViewController {
     // MARK: - UIViewController
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == showSingleImageSegueIdentifier {
+            let viewController = segue.destination as! SingleImageViewController
+            let indexPath = sender as! IndexPath
+            let image = UIImage(named: photosName[indexPath.row])
+            viewController.image = image
+        } else {
+            super.prepare(for: segue, sender: sender)
+        }
     }
     
     override func viewDidLoad() {
@@ -69,6 +82,7 @@ extension ImagesListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
