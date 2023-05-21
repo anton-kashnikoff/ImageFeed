@@ -8,11 +8,12 @@
 import UIKit
 
 final class ProfileViewController: UIViewController {
-    let profileImageView = UIImageView(image: UIImage(named: "photo"))
-    let nameLabel = UILabel()
-    let loginNameLabel = UILabel()
-    let descriptionLabel = UILabel()
-    let logoutButton = UIButton.systemButton(with: UIImage(named: "logout_button")!, target: ProfileViewController.self, action: #selector(didTapLogoutButton))
+    // MARK: - Private Properties
+    private let profileImageView = UIImageView(image: UIImage(named: "photo"))
+    private let nameLabel = UILabel()
+    private let loginNameLabel = UILabel()
+    private let descriptionLabel = UILabel()
+    private let logoutButton = UIButton.systemButton(with: UIImage(named: "logout_button")!, target: ProfileViewController.self, action: #selector(didTapLogoutButton))
     
     // MARK: - UIViewController
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -28,7 +29,8 @@ final class ProfileViewController: UIViewController {
         configureLoginNameLabel()
         configureDescriptionLabel()
     }
-    
+
+    // MARK: - Private methods
     private func configureProfileImageView() {
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(profileImageView)
