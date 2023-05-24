@@ -13,7 +13,7 @@ final class ProfileViewController: UIViewController {
     private let nameLabel = UILabel()
     private let loginNameLabel = UILabel()
     private let descriptionLabel = UILabel()
-    private let logoutButton = UIButton.systemButton(with: UIImage(named: "logout_button")!, target: ProfileViewController.self, action: #selector(didTapLogoutButton))
+    private let logoutButton = UIButton.systemButton(with: UIImage(named: "logout_button") ?? UIImage(), target: ProfileViewController.self, action: #selector(didTapLogoutButton))
     
     // MARK: - UIViewController
     override var preferredStatusBarStyle: UIStatusBarStyle {
