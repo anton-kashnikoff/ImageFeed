@@ -113,7 +113,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="Wh0-f1-EVm" userLabel="Single Image View">
-                                        <rect key="frame" x="0.0" y="0.0" width="200" height="132"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
@@ -162,13 +162,17 @@
                             <constraint firstAttribute="bottom" secondItem="2tc-ES-phr" secondAttribute="bottom" id="Ze3-JQ-36W"/>
                             <constraint firstItem="2tc-ES-phr" firstAttribute="top" secondItem="GN1-Re-Xqn" secondAttribute="top" id="dyY-Pv-VEg"/>
                             <constraint firstItem="B0V-f4-4Yb" firstAttribute="top" secondItem="GN1-Re-Xqn" secondAttribute="top" constant="56" id="kDW-mo-A6P"/>
-                            <constraint firstItem="FRd-C4-Zqe" firstAttribute="trailing" secondItem="2tc-ES-phr" secondAttribute="trailing" id="nAn-YJ-bjr"/>
-                            <constraint firstItem="2tc-ES-phr" firstAttribute="leading" secondItem="FRd-C4-Zqe" secondAttribute="leading" id="xZb-ug-BON"/>
+                            <constraint firstAttribute="trailing" secondItem="2tc-ES-phr" secondAttribute="trailing" id="nAn-YJ-bjr"/>
+                            <constraint firstItem="2tc-ES-phr" firstAttribute="leading" secondItem="GN1-Re-Xqn" secondAttribute="leading" id="xZb-ug-BON"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="v62-bR-59n"/>
                     <connections>
                         <outlet property="imageView" destination="Wh0-f1-EVm" id="QcN-NY-JGN"/>
+                        <outlet property="imageViewBottomConstraint" destination="lGw-8F-krT" id="kur-Gd-Xvf"/>
+                        <outlet property="imageViewLeadingConstraint" destination="3xw-C7-agc" id="dWg-bb-3qZ"/>
+                        <outlet property="imageViewTopConstraint" destination="98w-Sr-dSZ" id="JHd-ok-yDu"/>
+                        <outlet property="imageViewTrailingConstraint" destination="NLP-vs-fqa" id="Qg0-VC-zBR"/>
                         <outlet property="scrollView" destination="2tc-ES-phr" id="bJw-h8-1PD"/>
                     </connections>
                 </viewController>
@@ -215,7 +219,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="0" width="200" height="132"/>
+        <image name="0" width="1024" height="768"/>
         <image name="backward_button" width="24" height="24"/>
         <image name="like_button_on" width="44" height="44"/>
         <image name="sharing_button" width="50" height="50"/>
