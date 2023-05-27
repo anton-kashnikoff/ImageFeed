@@ -17,6 +17,7 @@
 		CBBC24E82A07F4AE00B056C5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBBC24E62A07F4AE00B056C5 /* Main.storyboard */; };
 		CBBC24EA2A07F4B400B056C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBBC24E92A07F4B400B056C5 /* Assets.xcassets */; };
 		CBBC24ED2A07F4B400B056C5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBBC24EB2A07F4B400B056C5 /* LaunchScreen.storyboard */; };
+		CBCCB1AA2A2228F0001F73E8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCCB1A92A2228F0001F73E8 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		CBBC24E92A07F4B400B056C5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CBBC24EC2A07F4B400B056C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CBBC24EE2A07F4B400B056C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CBCCB1A92A2228F0001F73E8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 		CBBC24DF2A07F4AE00B056C5 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				CBCCB1A92A2228F0001F73E8 /* Constants.swift */,
 				CBBC24E02A07F4AE00B056C5 /* AppDelegate.swift */,
 				CBBC24E22A07F4AE00B056C5 /* SceneDelegate.swift */,
 				CBBC24E62A07F4AE00B056C5 /* Main.storyboard */,
@@ -189,6 +192,7 @@
 				CB1C6DBB2A0D240D000DE952 /* ImagesListCell.swift in Sources */,
 				CBBC24E32A07F4AE00B056C5 /* SceneDelegate.swift in Sources */,
 				CB866D592A0A63E900B82387 /* UIColor+Extensions.swift in Sources */,
+				CBCCB1AA2A2228F0001F73E8 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
