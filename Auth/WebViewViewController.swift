@@ -61,6 +61,7 @@ final class WebViewViewController: UIViewController {
     }
 }
 
+// MARK: - WKNavigationDelegate
 extension WebViewViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if let code = code(from: navigationAction) {
