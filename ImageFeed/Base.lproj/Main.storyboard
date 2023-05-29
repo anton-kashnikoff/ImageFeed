@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ldO-RZ-Sbh">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PTp-pf-Ntd">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -32,10 +32,10 @@
                                                     <rect key="frame" x="16" y="4" width="361" height="216"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                             <integer key="value" value="16"/>
                                                         </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="27 августа 2022" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NMD-Gz-1d1" userLabel="Date Label">
@@ -99,7 +99,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-11" y="-20"/>
+            <point key="canvasLocation" x="915.26717557251902" y="-20.422535211267608"/>
         </scene>
         <!--Single Image-->
         <scene sceneID="bL1-4Z-Eve">
@@ -178,7 +178,58 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zq7-Zi-PvE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="861.83206106870227" y="-20.422535211267608"/>
+            <point key="canvasLocation" x="1788.5496183206105" y="-20.422535211267608"/>
+        </scene>
+        <!--Auth View Controller-->
+        <scene sceneID="Gu7-nJ-IlF">
+            <objects>
+                <viewController id="Gu7-Tn-Xsy" userLabel="Auth View Controller" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mZs-4t-v1j" userLabel="Auth View">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_of_unsplash" translatesAutoresizingMaskIntoConstraints="NO" id="5jH-dw-Si5" userLabel="Logo of Unsplash Image View">
+                                <rect key="frame" x="166.66666666666666" y="396" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="3BA-rk-QZJ"/>
+                                    <constraint firstAttribute="height" constant="60" id="tb3-oL-P9v"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bjt-br-p6G" userLabel="Sign In Button">
+                                <rect key="frame" x="16" y="680" width="361" height="48"/>
+                                <color key="backgroundColor" name="YP White"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="yp3-Og-Ifu"/>
+                                </constraints>
+                                <color key="tintColor" name="YP Black"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Войти">
+                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="17"/>
+                                </buttonConfiguration>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="16"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="nye-vL-NlV"/>
+                        <color key="backgroundColor" name="YP Black"/>
+                        <constraints>
+                            <constraint firstItem="nye-vL-NlV" firstAttribute="trailing" secondItem="Bjt-br-p6G" secondAttribute="trailing" constant="16" id="2We-ng-RwX"/>
+                            <constraint firstItem="5jH-dw-Si5" firstAttribute="centerX" secondItem="mZs-4t-v1j" secondAttribute="centerX" id="74l-Gu-inp"/>
+                            <constraint firstAttribute="bottom" secondItem="Bjt-br-p6G" secondAttribute="bottom" constant="124" id="Qpb-t8-Kzr"/>
+                            <constraint firstItem="5jH-dw-Si5" firstAttribute="centerY" secondItem="mZs-4t-v1j" secondAttribute="centerY" id="bgP-tC-Xlu"/>
+                            <constraint firstItem="Bjt-br-p6G" firstAttribute="leading" secondItem="nye-vL-NlV" secondAttribute="leading" constant="16" id="e9D-kx-DAl"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="yjv-by-Vgg"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ngw-df-psk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1136.6412213740457" y="363.38028169014086"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="hTm-Xl-bj5">
@@ -199,7 +250,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zqI-uz-OG3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1138" y="357"/>
+            <point key="canvasLocation" x="-211.4503816793893" y="356.33802816901408"/>
         </scene>
         <!--Profile-->
         <scene sceneID="SFA-gE-7pq">
@@ -215,13 +266,32 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qYe-TL-fNn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-11" y="708"/>
+            <point key="canvasLocation" x="915.26717557251902" y="707.74647887323943"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="bL6-MD-xDh">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PTp-pf-Ntd" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Sia-n5-mxH">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Gu7-Tn-Xsy" kind="relationship" relationship="rootViewController" id="m8Y-2u-4IT"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="exw-pR-jdt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2063.3587786259541" y="363.38028169014086"/>
         </scene>
     </scenes>
     <resources>
         <image name="0" width="1024" height="768"/>
         <image name="backward_button" width="24" height="24"/>
         <image name="like_button_on" width="44" height="44"/>
+        <image name="logo_of_unsplash" width="60" height="60"/>
         <image name="sharing_button" width="50" height="50"/>
         <image name="tab_editorial_active" width="30" height="30"/>
         <image name="tab_profile_active" width="30" height="30"/>
