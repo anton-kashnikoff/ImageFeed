@@ -9,7 +9,7 @@ import Foundation
 
 final class OAuth2Service {
     static let shared = OAuth2Service()
-    private var authToken: String?
+
     enum NetworkError: Error {
         case httpStatusCode(Int)
         case urlRequestError(Error)
@@ -19,11 +19,11 @@ final class OAuth2Service {
     func fetchAuthToken(_ code: String, handler: @escaping (Result<String, Error>) -> Void) {
         let request = makeRequest(code: code)
 
-        loadObject(for: request) { [weak self] result in
+        loadObject(for: request) { result in
             switch result {
             case .success(let tokenResponseBody):
                 let authToken = tokenResponseBody.accessToken
-                self?.authToken = authToken
+                OAuth2TokenStorage().authToken = authToken
                 handler(.success(authToken))
             case .failure(let error):
                 handler(.failure(error))

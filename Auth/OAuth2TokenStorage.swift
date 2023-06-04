@@ -8,9 +8,9 @@
 import Foundation
 
 final class OAuth2TokenStorage {
-    private (set) var authToken: String {
+    var authToken: String? {
         get {
-            UserDefaults.standard.string(forKey: "authToken") ?? "There's no access token"
+            UserDefaults.standard.string(forKey: "authToken")
         }
         set {
             UserDefaults.standard.set(newValue, forKey: "authToken")
