@@ -37,8 +37,6 @@ final class WebViewViewController: UIViewController {
         let request = URLRequest(url: url)
 
         webView.load(request)
-        
-        updateProgress()
     }
 
     override func viewDidAppear(_ animated: Bool) {
