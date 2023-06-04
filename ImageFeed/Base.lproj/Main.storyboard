@@ -258,7 +258,7 @@
                                     <constraint firstAttribute="height" constant="48" id="hn6-aa-X5s"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="backward_button"/>
+                                <state key="normal" image="backward_button_black"/>
                                 <connections>
                                     <action selector="didTapBackButton:" destination="fAS-id-sBF" eventType="touchUpInside" id="PZc-hE-7tU"/>
                                 </connections>
@@ -335,8 +335,17 @@
                     <view key="view" contentMode="scaleToFill" id="Ph3-xU-ChO">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="vxb-vI-q6T">
+                                <rect key="frame" x="159" y="387" width="75" height="78"/>
+                            </imageView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="JDO-HB-qfu"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="YP Black"/>
+                        <constraints>
+                            <constraint firstItem="vxb-vI-q6T" firstAttribute="centerY" secondItem="Ph3-xU-ChO" secondAttribute="centerY" id="mv1-04-HIl"/>
+                            <constraint firstItem="vxb-vI-q6T" firstAttribute="centerX" secondItem="Ph3-xU-ChO" secondAttribute="centerX" id="zNp-g4-zpe"/>
+                        </constraints>
                     </view>
                     <connections>
                         <segue destination="PTp-pf-Ntd" kind="presentation" identifier="ShowAuthenticationScreen" modalPresentationStyle="fullScreen" id="gCK-C0-ZU4"/>
@@ -369,7 +378,9 @@
     <resources>
         <image name="0" width="1024" height="768"/>
         <image name="backward_button" width="24" height="24"/>
+        <image name="backward_button_black" width="24" height="24"/>
         <image name="like_button_on" width="44" height="44"/>
+        <image name="logo" width="75" height="78"/>
         <image name="logo_of_unsplash" width="60" height="60"/>
         <image name="sharing_button" width="50" height="50"/>
         <image name="tab_editorial_active" width="30" height="30"/>
