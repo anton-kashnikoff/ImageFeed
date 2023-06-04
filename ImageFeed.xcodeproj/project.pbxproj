@@ -97,9 +97,6 @@
 			children = (
 				CBA8FFBC2A24D950006C09F2 /* AuthViewController.swift */,
 				CB1086E42A24E06000D2BD10 /* WebViewViewController.swift */,
-				CBC0D9F02A2A26C90055CB6D /* OAuth2Service.swift */,
-				CB92C4F62A2B7C22001E0145 /* OAuth2TokenStorage.swift */,
-				CBC0D9EE2A2A235B0055CB6D /* OAuthTokenResponseBody.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -107,11 +104,6 @@
 		CBBC24D42A07F4AE00B056C5 = {
 			isa = PBXGroup;
 			children = (
-				CBA8FFBB2A24D93D006C09F2 /* Auth */,
-				CB06D2242A164B72006356A1 /* SingleImage */,
-				CB9DCFD12A13A88D006C7150 /* Profile */,
-				CB866D572A0A63C600B82387 /* Helpers */,
-				CB1C6DBC2A0D243B000DE952 /* ImagesList */,
 				CBBC24DF2A07F4AE00B056C5 /* ImageFeed */,
 				CBBC24DE2A07F4AE00B056C5 /* Products */,
 			);
@@ -130,14 +122,38 @@
 			children = (
 				CBCCB1A92A2228F0001F73E8 /* Constants.swift */,
 				CBBC24E02A07F4AE00B056C5 /* AppDelegate.swift */,
-				CBD534482A2CC4CF00001E97 /* SplashViewController.swift */,
 				CBBC24E22A07F4AE00B056C5 /* SceneDelegate.swift */,
+				CBD5344A2A2CDC4C00001E97 /* SplashViewController */,
+				CBA8FFBB2A24D93D006C09F2 /* Auth */,
+				CB9DCFD12A13A88D006C7150 /* Profile */,
+				CB1C6DBC2A0D243B000DE952 /* ImagesList */,
+				CB06D2242A164B72006356A1 /* SingleImage */,
+				CBD5344B2A2CDD4400001E97 /* ServiceAccessLayer */,
+				CB866D572A0A63C600B82387 /* Helpers */,
 				CBBC24E62A07F4AE00B056C5 /* Main.storyboard */,
 				CBBC24E92A07F4B400B056C5 /* Assets.xcassets */,
 				CBBC24EB2A07F4B400B056C5 /* LaunchScreen.storyboard */,
 				CBBC24EE2A07F4B400B056C5 /* Info.plist */,
 			);
 			path = ImageFeed;
+			sourceTree = "<group>";
+		};
+		CBD5344A2A2CDC4C00001E97 /* SplashViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CBD534482A2CC4CF00001E97 /* SplashViewController.swift */,
+			);
+			path = SplashViewController;
+			sourceTree = "<group>";
+		};
+		CBD5344B2A2CDD4400001E97 /* ServiceAccessLayer */ = {
+			isa = PBXGroup;
+			children = (
+				CBC0D9F02A2A26C90055CB6D /* OAuth2Service.swift */,
+				CB92C4F62A2B7C22001E0145 /* OAuth2TokenStorage.swift */,
+				CBC0D9EE2A2A235B0055CB6D /* OAuthTokenResponseBody.swift */,
+			);
+			path = ServiceAccessLayer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
