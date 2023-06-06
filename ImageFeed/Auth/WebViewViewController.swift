@@ -26,14 +26,19 @@ final class WebViewViewController: UIViewController {
         super.viewDidLoad()
         webView.navigationDelegate = self
         
-        var urlComponents = URLComponents(string: unsplashAuthorizeURLString)!
+        guard var urlComponents = URLComponents(string: unsplashAuthorizeURLString) else {
+            return
+        }
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: accessKey),
             URLQueryItem(name: "redirect_uri", value: redirectURI),
             URLQueryItem(name: "response_type", value: "code"),
             URLQueryItem(name: "scope", value: accessScope)
         ]
-        let url = urlComponents.url!
+        guard let url = urlComponents.url else {
+            return
+        }
+
         let request = URLRequest(url: url)
 
         webView.load(request)
@@ -83,6 +88,7 @@ final class WebViewViewController: UIViewController {
 
     private func updateProgress() {
         progressView.progress = Float(webView.estimatedProgress)
+        progressView.setProgress(Float(webView.estimatedProgress), animated: true)
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
     }
 }
