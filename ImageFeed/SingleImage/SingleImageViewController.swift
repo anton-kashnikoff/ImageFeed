@@ -82,7 +82,7 @@ final class SingleImageViewController: UIViewController {
     }
 }
 
-    // MARK: - UIScrollViewDelegate
+// MARK: - UIScrollViewDelegate
 extension SingleImageViewController: UIScrollViewDelegate {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
