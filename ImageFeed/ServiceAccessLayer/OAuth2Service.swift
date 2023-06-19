@@ -10,6 +10,9 @@ import Foundation
 final class OAuth2Service {
     static let shared = OAuth2Service()
 
+    private var activeSessionTask: URLSessionTask?
+    private var lastCode: String?
+
     enum NetworkError: Error {
         case httpStatusCode(Int)
         case urlRequestError(Error)
@@ -17,6 +20,14 @@ final class OAuth2Service {
     }
 
     func fetchAuthToken(_ code: String, handler: @escaping (Result<String, Error>) -> Void) {
+        assert(Thread.isMainThread)
+        // если коды не совпадают, то делаем новый запрос
+        if lastCode == code {
+            return
+        }
+        activeSessionTask?.cancel() // отменяем старый запрос, но если activeSessionTask == nil, то ничего не будет выполнено, и мы просто пройдём дальше вниз
+        lastCode = code // запоминаем код, использованный в запросе
+
         let request = makeRequest(code: code)
 
         loadObject(for: request) { result in
@@ -48,27 +59,35 @@ final class OAuth2Service {
     }
 
     private func fetch(for request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void) {
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        let dataTask = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             if let data, let response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
-                if 200 ..< 300 ~= statusCode {
+                if 200..<300 ~= statusCode {
                     DispatchQueue.main.async {
                         handler(.success(data))
+                        self?.activeSessionTask = nil
                     }
                 } else {
                     DispatchQueue.main.async {
                         handler(.failure(NetworkError.httpStatusCode(statusCode)))
+                        self?.activeSessionTask = nil
                     }
                 }
             } else if let error {
                 DispatchQueue.main.async {
                     handler(.failure(NetworkError.urlRequestError(error)))
+                    self?.activeSessionTask = nil
+                    self?.lastCode = nil
                 }
             } else {
                 DispatchQueue.main.async {
                     handler(.failure(NetworkError.urlSessionError))
+                    self?.activeSessionTask = nil
                 }
             }
-        }.resume()
+        }
+
+        activeSessionTask = dataTask
+        dataTask.resume()
     }
 
     private func makeRequest(code: String) -> URLRequest {

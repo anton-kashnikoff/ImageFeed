@@ -8,12 +8,15 @@
 import UIKit
 
 final class ProfileViewController: UIViewController {
-    // MARK: - Private Properties
+    // MARK: - Visual Components
     private let profileImageView = UIImageView(image: UIImage(named: "photo"))
     private let nameLabel = UILabel()
     private let loginNameLabel = UILabel()
     private let descriptionLabel = UILabel()
     private let logoutButton = UIButton.systemButton(with: UIImage(named: "logout_button") ?? UIImage(), target: ProfileViewController.self, action: #selector(didTapLogoutButton))
+
+    // MARK: - Private Properties
+    private let profileService = ProfileService.shared
     
     // MARK: - UIViewController
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -28,6 +31,8 @@ final class ProfileViewController: UIViewController {
         configureNameLabel()
         configureLoginNameLabel()
         configureDescriptionLabel()
+
+        updateProfileDetails()
     }
 
     // MARK: - Private methods
@@ -97,6 +102,12 @@ final class ProfileViewController: UIViewController {
             logoutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 45),
             logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
+    }
+
+    private func updateProfileDetails() {
+        self.nameLabel.text = profileService.profile?.name
+        self.loginNameLabel.text = profileService.profile?.loginName
+        self.descriptionLabel.text = profileService.profile?.bio
     }
     
     @objc private func didTapLogoutButton() {

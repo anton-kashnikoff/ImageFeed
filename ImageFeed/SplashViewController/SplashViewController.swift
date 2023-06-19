@@ -6,16 +6,17 @@
 //
 
 import UIKit
-import ProgressHUD
 
 final class SplashViewController: UIViewController {
     private let oauth2Service = OAuth2Service()
     private let oauth2TokenStorage = OAuth2TokenStorage()
+    private let profileService = ProfileService.shared
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if let _ = oauth2TokenStorage.authToken {
+        if let token = oauth2TokenStorage.authToken {
+            fetchProfile(with: token)
             switchToTabBarController()
         } else {
             performSegue(withIdentifier: "ShowAuthenticationScreen", sender: nil)
@@ -29,6 +30,20 @@ final class SplashViewController: UIViewController {
 
         let tabBarViewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "TabBarViewController")
         window.rootViewController = tabBarViewController
+    }
+
+    private func fetchProfile(with token: String) {
+        profileService.fetchProfile(token) { [weak self] result in
+            switch result {
+            case .success(_):
+                UIBlockingProgressHUD.dismiss()
+                self?.switchToTabBarController()
+            case .failure(_):
+                UIBlockingProgressHUD.dismiss()
+                // TODO: show the error
+                break
+            }
+        }
     }
 }
 
@@ -48,16 +63,16 @@ extension SplashViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        ProgressHUD.show()
+        UIBlockingProgressHUD.show()
         dismiss(animated: true) { [weak self] in
             self?.oauth2Service.fetchAuthToken(code) { [weak self] result in
                 switch result {
-                case .success:
-                    self?.switchToTabBarController()
-                    ProgressHUD.dismiss()
+                case .success(let token):
+                    self?.fetchProfile(with: token)
                 case .failure:
-                    ProgressHUD.dismiss()
+                    UIBlockingProgressHUD.dismiss()
                     // TODO: Show the error
+                    break
                 }
             }
         }
