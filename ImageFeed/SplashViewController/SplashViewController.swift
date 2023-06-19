@@ -8,10 +8,12 @@
 import UIKit
 
 final class SplashViewController: UIViewController {
+    // MARK: - Private Properties
     private let oauth2Service = OAuth2Service()
     private let oauth2TokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService.shared
 
+    // MARK: - UIViewController
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -23,6 +25,7 @@ final class SplashViewController: UIViewController {
         }
     }
 
+    // MARK: - Private methods
     private func switchToTabBarController() {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else {
             fatalError("Invalid Configuration")
@@ -44,6 +47,20 @@ final class SplashViewController: UIViewController {
                 break
             }
         }
+
+        if let username = profileService.profile?.username {
+            UIBlockingProgressHUD.dismiss()
+            switchToTabBarController()
+            ProfileImageService.shared.fetchProfileImageURL(username: username) { result in
+                switch result {
+                case .success(_):
+                    break
+                case .failure(_):
+                    // TODO: show the error
+                    break
+                }
+            }
+        }
     }
 }
 
@@ -61,6 +78,7 @@ extension SplashViewController {
     }
 }
 
+// MARK: - AuthViewControllerDelegate
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         UIBlockingProgressHUD.show()

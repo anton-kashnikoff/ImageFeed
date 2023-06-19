@@ -36,6 +36,7 @@ struct Profile {
 }
 
 final class ProfileService {
+    // MARK: - Public Properties
     static let shared = ProfileService()
 
     // MARK: - Private Properties
@@ -44,6 +45,7 @@ final class ProfileService {
 
     private(set) var profile: Profile?
 
+    // MARK: - Public methods
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         assert(Thread.isMainThread)
 

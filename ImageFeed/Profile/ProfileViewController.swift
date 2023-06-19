@@ -17,6 +17,7 @@ final class ProfileViewController: UIViewController {
 
     // MARK: - Private Properties
     private let profileService = ProfileService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     // MARK: - UIViewController
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -32,10 +33,22 @@ final class ProfileViewController: UIViewController {
         configureLoginNameLabel()
         configureDescriptionLabel()
 
+        profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
+            self?.updateAvatar()
+        }
+
+        updateAvatar()
         updateProfileDetails()
     }
 
     // MARK: - Private methods
+    private func updateAvatar() {
+        guard let profileImageURL = ProfileImageService.shared.avatarURL, let _ = URL(string: profileImageURL) else {
+            return
+        }
+        // TODO: Обновить аватар, используя Kingfisher
+    }
+
     private func configureProfileImageView() {
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(profileImageView)
