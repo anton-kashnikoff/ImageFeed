@@ -61,8 +61,8 @@ final class ProfileService {
             switch result {
             case .success(let profileResult):
                 let profile = Profile(profileResult: profileResult)
-                completion(.success(profile))
                 self?.profile = profile
+                completion(.success(profile))
             case .failure(let error):
                 completion(.failure(error))
                 if case URLSession.NetworkError.urlSessionError = error {

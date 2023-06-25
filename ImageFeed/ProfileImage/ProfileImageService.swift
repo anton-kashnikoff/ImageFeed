@@ -31,7 +31,7 @@ final class ProfileImageService {
     private(set) var avatarURL: String?
 
     // MARK: - Public methods
-    func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
+    func fetchProfileImageURL(username: String, completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
 
         guard let token = OAuth2TokenStorage().authToken else {
@@ -50,11 +50,9 @@ final class ProfileImageService {
             switch result {
             case .success(let userResult):
                 let avatarURL = userResult.profileImage.small
-                completion(.success(avatarURL))
-
-                NotificationCenter.default.post(name: ProfileImageService.didChangeNotification, object: self, userInfo: ["URL": avatarURL])
-
                 self?.avatarURL = avatarURL
+                completion(.success(avatarURL))
+                NotificationCenter.default.post(name: ProfileImageService.didChangeNotification, object: self, userInfo: ["URL": avatarURL])
             case .failure(let error):
                 completion(.failure(error))
                 if case URLSession.NetworkError.urlSessionError = error {
@@ -76,7 +74,7 @@ final class ProfileImageService {
     }
 
     private func makeRequest(with token: String, username: String) -> URLRequest {
-        var request = URLRequest(url: URL(string: "https://api.unsplash.com/users/:\(username)")!)
+        var request = URLRequest(url: URL(string: "https://api.unsplash.com/users/\(username)")!)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
     }

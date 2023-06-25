@@ -6,10 +6,11 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     // MARK: - Visual Components
-    private let profileImageView = UIImageView(image: UIImage(named: "photo"))
+    private let profileImageView = UIImageView()
     private let nameLabel = UILabel()
     private let loginNameLabel = UILabel()
     private let descriptionLabel = UILabel()
@@ -43,10 +44,13 @@ final class ProfileViewController: UIViewController {
 
     // MARK: - Private methods
     private func updateAvatar() {
-        guard let profileImageURL = ProfileImageService.shared.avatarURL, let _ = URL(string: profileImageURL) else {
+        guard let profileImagePath = ProfileImageService.shared.avatarURL, let profileImageURL = URL(string: profileImagePath) else {
             return
         }
         // TODO: Обновить аватар, используя Kingfisher
+        let processor = RoundCornerImageProcessor(cornerRadius: 16)
+        profileImageView.kf.indicatorType = .activity
+        profileImageView.kf.setImage(with: profileImageURL, placeholder: UIImage(named: "placeholder.jpeg"), options: [.processor(processor)])
     }
 
     private func configureProfileImageView() {

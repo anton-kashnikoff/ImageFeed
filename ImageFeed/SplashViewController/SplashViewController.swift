@@ -38,27 +38,21 @@ final class SplashViewController: UIViewController {
     private func fetchProfile(with token: String) {
         profileService.fetchProfile(token) { [weak self] result in
             switch result {
-            case .success(_):
+            case .success(let profile):
                 UIBlockingProgressHUD.dismiss()
                 self?.switchToTabBarController()
+
+                ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { [weak self] result in
+                    switch result {
+                    case .success(let profileImagePath):
+                        print(profileImagePath)
+                    case .failure(_):
+                        self?.showAlert(title: "Что-то пошло не так.", message: "Не удалось загрузить фото профиля")
+                    }
+                }
             case .failure(_):
                 UIBlockingProgressHUD.dismiss()
                 self?.showAlert(title: "Что-то пошло не так.", message: "Не удалось войти в систему")
-                break
-            }
-        }
-
-        if let username = profileService.profile?.username {
-            UIBlockingProgressHUD.dismiss()
-            switchToTabBarController()
-            ProfileImageService.shared.fetchProfileImageURL(username: username) { [weak self] result in
-                switch result {
-                case .success(_):
-                    break
-                case .failure(_):
-                    self?.showAlert(title: "Что-то пошло не так.", message: "Не удалось загрузить фото профиля")
-                    break
-                }
             }
         }
     }
