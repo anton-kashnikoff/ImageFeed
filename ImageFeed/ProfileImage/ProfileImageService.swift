@@ -46,34 +46,35 @@ final class ProfileImageService {
 
         let request = makeRequest(with: token, username: username)
 
-        let dataTask = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            if let data, let response = response as? HTTPURLResponse, 200..<300 ~= response.statusCode {
-                guard let userResult = try? JSONDecoder().decode(UserResult.self, from: data) else {
-                    return
-                }
-                DispatchQueue.main.async {
-                    let avatarURL = userResult.profileImage.small
-                    completion(.success(avatarURL))
+        loadObject(for: request) { [weak self] result in
+            switch result {
+            case .success(let userResult):
+                let avatarURL = userResult.profileImage.small
+                completion(.success(avatarURL))
 
-                    NotificationCenter.default.post(name: ProfileImageService.didChangeNotification, object: self, userInfo: ["URL": avatarURL])
+                NotificationCenter.default.post(name: ProfileImageService.didChangeNotification, object: self, userInfo: ["URL": avatarURL])
 
-                    self?.avatarURL = avatarURL
-                    self?.activeSessionTask = nil
-                }
-            } else if let error {
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-
-                    self?.activeSessionTask = nil
+                self?.avatarURL = avatarURL
+            case .failure(let error):
+                completion(.failure(error))
+                if case URLSession.NetworkError.urlSessionError = error {
+                    self?.lastToken = nil
                 }
             }
+        }
+    }
+
+    // MARK: - Private methods
+    private func loadObject(for request: URLRequest, completion: @escaping (Result<UserResult, Error>) -> Void) {
+        let dataTask = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
+            completion(result)
+            self?.activeSessionTask = nil
         }
 
         activeSessionTask = dataTask
         dataTask.resume()
     }
 
-    // MARK: - Private methods
     private func makeRequest(with token: String, username: String) -> URLRequest {
         var request = URLRequest(url: URL(string: "https://api.unsplash.com/users/:\(username)")!)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")

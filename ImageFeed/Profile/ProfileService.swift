@@ -57,30 +57,32 @@ final class ProfileService {
 
         let request = makeRequest(with: token)
 
-        let dataTask = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            if let data, let response = response as? HTTPURLResponse, 200..<300 ~= response.statusCode {
-                guard let profileResult = try? JSONDecoder().decode(ProfileResult.self, from: data) else {
-                    return
-                }
-                DispatchQueue.main.async {
-                    let profile = Profile(profileResult: profileResult)
-                    completion(.success(profile))
-                    self?.profile = profile
-                    self?.activeSessionTask = nil
-                }
-            } else if let error {
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                    self?.activeSessionTask = nil
+        loadObject(for: request) { [weak self] result in
+            switch result {
+            case .success(let profileResult):
+                let profile = Profile(profileResult: profileResult)
+                completion(.success(profile))
+                self?.profile = profile
+            case .failure(let error):
+                completion(.failure(error))
+                if case URLSession.NetworkError.urlSessionError = error {
+                    self?.lastToken = nil
                 }
             }
+        }
+    }
+
+    // MARK: - Private methods
+    private func loadObject(for request: URLRequest, completion: @escaping (Result<ProfileResult, Error>) -> Void) {
+        let dataTask = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
+            completion(result)
+            self?.activeSessionTask = nil
         }
 
         activeSessionTask = dataTask
         dataTask.resume()
     }
 
-    // MARK: - Private methods
     private func makeRequest(with token: String) -> URLRequest {
         var request = URLRequest(url: URL(string: "https://api.unsplash.com/me")!)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")

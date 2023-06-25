@@ -43,7 +43,7 @@ final class SplashViewController: UIViewController {
                 self?.switchToTabBarController()
             case .failure(_):
                 UIBlockingProgressHUD.dismiss()
-                // TODO: show the error
+                self?.showAlert(title: "Что-то пошло не так.", message: "Не удалось войти в систему")
                 break
             }
         }
@@ -51,16 +51,22 @@ final class SplashViewController: UIViewController {
         if let username = profileService.profile?.username {
             UIBlockingProgressHUD.dismiss()
             switchToTabBarController()
-            ProfileImageService.shared.fetchProfileImageURL(username: username) { result in
+            ProfileImageService.shared.fetchProfileImageURL(username: username) { [weak self] result in
                 switch result {
                 case .success(_):
                     break
                 case .failure(_):
-                    // TODO: show the error
+                    self?.showAlert(title: "Что-то пошло не так.", message: "Не удалось загрузить фото профиля")
                     break
                 }
             }
         }
+    }
+
+    private func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alertController, animated: true)
     }
 }
 
@@ -89,7 +95,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                     self?.fetchProfile(with: token)
                 case .failure:
                     UIBlockingProgressHUD.dismiss()
-                    // TODO: Show the error
+                    self?.showAlert(title: "Что-то пошло не так.", message: "Не удалось получить токен авторизации")
                     break
                 }
             }
