@@ -47,7 +47,7 @@ final class ProfileViewController: UIViewController {
         guard let profileImagePath = ProfileImageService.shared.avatarURL, let profileImageURL = URL(string: profileImagePath) else {
             return
         }
-        // TODO: Обновить аватар, используя Kingfisher
+
         let processor = RoundCornerImageProcessor(cornerRadius: 16)
         profileImageView.kf.indicatorType = .activity
         profileImageView.kf.setImage(with: profileImageURL, placeholder: UIImage(named: "placeholder.jpeg"), options: [.processor(processor)])
