@@ -6,14 +6,19 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
-    // MARK: - Private Properties
-    private let profileImageView = UIImageView(image: UIImage(named: "photo"))
+    // MARK: - Visual Components
+    private let profileImageView = UIImageView()
     private let nameLabel = UILabel()
     private let loginNameLabel = UILabel()
     private let descriptionLabel = UILabel()
     private let logoutButton = UIButton.systemButton(with: UIImage(named: "logout_button") ?? UIImage(), target: ProfileViewController.self, action: #selector(didTapLogoutButton))
+
+    // MARK: - Private Properties
+    private let profileService = ProfileService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     // MARK: - UIViewController
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -22,15 +27,34 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.backgroundColor = .ypBlack
         
         configureLogoutButton()
         configureProfileImageView()
         configureNameLabel()
         configureLoginNameLabel()
         configureDescriptionLabel()
+
+        profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
+            self?.updateAvatar()
+        }
+
+        updateAvatar()
+        updateProfileDetails()
     }
 
     // MARK: - Private methods
+    private func updateAvatar() {
+        guard let profileImagePath = ProfileImageService.shared.avatarURL, let profileImageURL = URL(string: profileImagePath) else {
+            return
+        }
+
+        let processor = RoundCornerImageProcessor(cornerRadius: 16)
+        profileImageView.kf.indicatorType = .activity
+        profileImageView.kf.setImage(with: profileImageURL, placeholder: UIImage(named: "placeholder.jpeg"), options: [.processor(processor)])
+    }
+
     private func configureProfileImageView() {
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(profileImageView)
@@ -97,6 +121,12 @@ final class ProfileViewController: UIViewController {
             logoutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 45),
             logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
+    }
+
+    private func updateProfileDetails() {
+        nameLabel.text = profileService.profile?.name
+        loginNameLabel.text = profileService.profile?.loginName
+        descriptionLabel.text = profileService.profile?.bio
     }
     
     @objc private func didTapLogoutButton() {
