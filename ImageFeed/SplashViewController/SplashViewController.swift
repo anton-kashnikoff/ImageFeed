@@ -25,7 +25,8 @@ final class SplashViewController: UIViewController {
             switchToTabBarController()
         } else {
             guard let authViewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
-                fatalError("Failed to show Authentication Screen")
+                assertionFailure("Failed to show Authentication Screen")
+                return
             }
 
             authViewController.delegate = self
@@ -95,8 +96,8 @@ final class SplashViewController: UIViewController {
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         UIBlockingProgressHUD.show()
-        dismiss(animated: true) { [weak self] in
-            self?.oauth2Service.fetchAuthToken(code) { [weak self] result in
+        oauth2Service.fetchAuthToken(code) { [weak self] result in
+            self?.dismiss(animated: true) { [weak self] in
                 switch result {
                 case .success(let token):
                     self?.fetchProfile(with: token)

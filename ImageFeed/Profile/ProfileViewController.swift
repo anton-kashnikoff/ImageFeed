@@ -27,6 +27,8 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.backgroundColor = .ypBlack
         
         configureLogoutButton()
         configureProfileImageView()
@@ -122,9 +124,9 @@ final class ProfileViewController: UIViewController {
     }
 
     private func updateProfileDetails() {
-        self.nameLabel.text = profileService.profile?.name
-        self.loginNameLabel.text = profileService.profile?.loginName
-        self.descriptionLabel.text = profileService.profile?.bio
+        nameLabel.text = profileService.profile?.name
+        loginNameLabel.text = profileService.profile?.loginName
+        descriptionLabel.text = profileService.profile?.bio
     }
     
     @objc private func didTapLogoutButton() {
