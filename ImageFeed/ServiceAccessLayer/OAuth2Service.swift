@@ -15,13 +15,6 @@ final class OAuth2Service {
     private var activeSessionTask: URLSessionTask?
     private var lastCode: String?
 
-//    // TODO: Delete enum
-//    enum NetworkError: Error {
-//        case httpStatusCode(Int)
-//        case urlRequestError(Error)
-//        case urlSessionError
-//    }
-
     // MARK: - Public methods
     func fetchAuthToken(_ code: String, handler: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
@@ -59,55 +52,6 @@ final class OAuth2Service {
         activeSessionTask = dataTask
         dataTask.resume()
     }
-
-//    private func loadObject(for request: URLRequest, handler: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void) {
-//        fetch(for: request) { result in
-//            switch result {
-//            case .success(let data):
-//                do {
-//                    let object = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-//                    handler(.success(object))
-//                } catch {
-//                    handler(.failure(error))
-//                }
-//            case .failure(let error):
-//                handler(.failure(error))
-//            }
-//        }
-//    }
-
-//    let dataTask = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-//        if let data, let response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
-//            if 200..<300 ~= statusCode {
-//                DispatchQueue.main.async {
-//                    do {
-//                        let object = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-//                        handler(.success(object))
-//                        self?.activeSessionTask = nil
-//                    } catch {
-//                        handler(.failure(error))
-//                        self?.activeSessionTask = nil
-//                    }
-//                }
-//            } else {
-//                DispatchQueue.main.async {
-//                    handler(.failure(NetworkError.httpStatusCode(statusCode)))
-//                    self?.activeSessionTask = nil
-//                }
-//            }
-//        } else if let error {
-//            DispatchQueue.main.async {
-//                handler(.failure(NetworkError.urlRequestError(error)))
-//                self?.activeSessionTask = nil
-//                self?.lastCode = nil
-//            }
-//        } else {
-//            DispatchQueue.main.async {
-//                handler(.failure(NetworkError.urlSessionError))
-//                self?.activeSessionTask = nil
-//            }
-//        }
-//    }
 
     private func makeRequest(code: String) -> URLRequest {
         var urlComponents = URLComponents(string: "https://unsplash.com/oauth/token")!
