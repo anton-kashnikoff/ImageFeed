@@ -32,7 +32,7 @@ struct PhotoResult: Decodable {
     let createdAt: String
     let width: Int
     let height: Int
-    let description: String
+    let description: String?
     let likedByUser: Bool
     let urls: URLsResult
     
@@ -61,8 +61,11 @@ final class ImagesListService {
     private var activeSessionTask: URLSessionTask?
     private var lastToken: String?
     
-    func fetchPhotosNextPage(_ token: String, completion: @escaping (Result<Photo, Error>) -> Void) {
+    func fetchPhotosNextPage() {
         assert(Thread.isMainThread)
+        guard let token = OAuth2TokenStorage().authToken else {
+            return
+        }
         
         if lastToken == token {
             return
@@ -76,16 +79,14 @@ final class ImagesListService {
         loadObject(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
             switch result {
             case .success(let photoResult):
-                for photo in photoResult {
-                    let photo = Photo(photoResult: photo)
-                    DispatchQueue.main.async {
+                DispatchQueue.main.async {
+                    for photo in photoResult {
+                        let photo = Photo(photoResult: photo)
                         self?.photos.append(photo)
                     }
+                    NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
                 }
-                NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
-//                completion(.success(photoResult))
             case .failure(let error):
-                completion(.failure(error))
                 if case URLSession.NetworkError.urlSessionError = error {
                     self?.lastToken = nil
                 }
@@ -102,8 +103,9 @@ final class ImagesListService {
         activeSessionTask = dataTask
         dataTask.resume()
     }
+    
     private func makeRequest(with token: String, nextPage: Int) -> URLRequest {
-        var request = URLRequest(url: URL(string: "https://api.unsplash.com/photos?page=\(nextPage)?per_page=10")!)
+        var request = URLRequest(url: URL(string: "https://api.unsplash.com/photos?page=\(nextPage)")!)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
     }
