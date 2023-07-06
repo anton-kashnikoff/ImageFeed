@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class SingleImageViewController: UIViewController {
     // MARK: - IBOutlet
@@ -17,44 +18,39 @@ final class SingleImageViewController: UIViewController {
     @IBOutlet private var imageViewBottomConstraint: NSLayoutConstraint!
     
     // MARK: - Public Properties
-    var image: UIImage! {
-        didSet {
-            guard isViewLoaded else {
-                return
-            }
-            imageView.image = image
-//            rescaleAndCenterImageInScrollView(image: image)
-        }
-    }
+    var imageObject: Photo?
     
-//    private func rescaleAndCenterImageInScrollView(image: UIImage) {
-//        view.layoutIfNeeded()
-//        
-//        let visibleRectSize = scrollView.bounds.size
-//        let hScale = visibleRectSize.width / image.size.width
-//        let vScale = visibleRectSize.height / image.size.height
-//        let scale = min(scrollView.maximumZoomScale, max(scrollView.minimumZoomScale, max(hScale, vScale)))
-//        
-//        scrollView.setZoomScale(scale, animated: false)
-//        scrollView.layoutIfNeeded()
-//        
-//        let newContentSize = scrollView.contentSize
-//        let x = (newContentSize.width - visibleRectSize.width) / 2
-//        let y = (newContentSize.height - visibleRectSize.height) / 2
-//        
-//        scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
+    var image: UIImage! // {
+//        didSet {
+//            guard isViewLoaded else {
+//                return
+//            }
+//            imageView.kf.setImage(with: URL(string: imageObject?.largeImageURL ?? ""))
+//        }
 //    }
     
     // MARK: - UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        imageView.image = image
-        
-//        scrollView.minimumZoomScale = 0.1
-//        scrollView.maximumZoomScale = 1.25
-        
-//        rescaleAndCenterImageInScrollView(image: image)
+        imageView.kf.indicatorType = .activity
+        imageView.kf.setImage(with: URL(string: imageObject?.largeImageURL ?? "")) { [weak self] result in
+            guard let self else {
+                return
+            }
+            
+            switch result {
+            case .success(let imageResult):
+                print("success")
+                print("Result Image width: \(imageResult.image.size.width)")
+                print("Result Image height: \(imageResult.image.size.height)")
+                self.imageView.frame.size = imageResult.image.size
+                self.image = imageResult.image
+                self.updateMinZoomScale(for: imageResult.image.size)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
     // MARK: - IBAction
@@ -72,10 +68,20 @@ final class SingleImageViewController: UIViewController {
         present(shareVC, animated: true)
     }
     
-    func updateMinZoomScale() {
-        let widthScale = view.bounds.size.width / imageView.bounds.width
-        let heightScale = view.bounds.size.height / imageView.bounds.height
+    func updateMinZoomScale(for size: CGSize) {
+        print(scrollView.bounds.size.width)
+        print(size.width)
+        
+        print(scrollView.bounds.size.height)
+        print(size.height)
+        
+        let widthScale = scrollView.bounds.size.width / size.width
+        let heightScale = scrollView.bounds.size.height / size.height
         let minScale = min(widthScale, heightScale)
+        
+        print("widthScale = \(widthScale)")
+        print("heightScale = \(heightScale)")
+        print("minScale = \(minScale)")
 
         scrollView.minimumZoomScale = minScale
         scrollView.zoomScale = minScale
@@ -84,25 +90,23 @@ final class SingleImageViewController: UIViewController {
 
 // MARK: - UIScrollViewDelegate
 extension SingleImageViewController: UIScrollViewDelegate {
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        updateMinZoomScale()
-    }
-    
+//    override func viewWillLayoutSubviews() {
+//        super.viewWillLayoutSubviews()
+//        updateMinZoomScale()
+//    }
+
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         imageView
     }
-    
-    func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        updateConstraints()
-    }
 
-    func updateConstraints() {
-        let yOffset = max(0, (view.bounds.size.height - imageView.frame.height) / 2)
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        print("Image width: \(imageView.frame.size.width)")
+        print("Image height: \(imageView.frame.size.height)")
+        let yOffset = max(0, (scrollView.bounds.size.height - imageView.frame.size.height) / 2)
         imageViewTopConstraint.constant = yOffset
         imageViewBottomConstraint.constant = yOffset
 
-        let xOffset = max(0, (view.bounds.size.width - imageView.frame.width) / 2)
+        let xOffset = max(0, (scrollView.bounds.size.width - imageView.frame.size.width) / 2)
         imageViewLeadingConstraint.constant = xOffset
         imageViewTrailingConstraint.constant = xOffset
 

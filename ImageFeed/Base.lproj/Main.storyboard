@@ -123,8 +123,8 @@
                                     <constraint firstItem="Wh0-f1-EVm" firstAttribute="trailing" secondItem="2tc-ES-phr" secondAttribute="trailing" id="NLP-vs-fqa"/>
                                     <constraint firstItem="Wh0-f1-EVm" firstAttribute="bottom" secondItem="2tc-ES-phr" secondAttribute="bottom" id="lGw-8F-krT"/>
                                 </constraints>
-                                <viewLayoutGuide key="contentLayoutGuide" id="VOl-y0-69k"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="Okq-5R-fNM"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="72Y-di-mt8"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="A6m-4I-gWG"/>
                                 <connections>
                                     <outlet property="delegate" destination="NPi-bn-mYf" id="Nt4-42-WKr"/>
                                 </connections>

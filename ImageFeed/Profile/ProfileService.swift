@@ -41,19 +41,12 @@ final class ProfileService {
 
     // MARK: - Private Properties
     private var activeSessionTask: URLSessionTask?
-    private var lastToken: String?
-
     private(set) var profile: Profile?
 
     // MARK: - Public methods
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         assert(Thread.isMainThread)
-
-        if lastToken == token {
-            return
-        }
         activeSessionTask?.cancel()
-        lastToken = token
 
         let request = makeRequest(with: token)
 
@@ -65,9 +58,6 @@ final class ProfileService {
                 completion(.success(profile))
             case .failure(let error):
                 completion(.failure(error))
-                if case URLSession.NetworkError.urlSessionError = error {
-                    self?.lastToken = nil
-                }
             }
         }
     }

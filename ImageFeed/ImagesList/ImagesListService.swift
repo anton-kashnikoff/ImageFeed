@@ -53,27 +53,22 @@ struct URLsResult: Decodable {
 }
 
 final class ImagesListService {
-    static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
-    
     // MARK: - Private Properties
     private(set) var photos = [Photo]()
     private var lastLoadedPage: Int?
     private var activeSessionTask: URLSessionTask?
-    private var lastToken: String?
     
+    // MARK: - Public methods
     func fetchPhotosNextPage() {
         assert(Thread.isMainThread)
         guard let token = OAuth2TokenStorage().authToken else {
             return
         }
-        
-        if lastToken == token {
-            return
-        }
+
         activeSessionTask?.cancel()
-        lastToken = token
         
         let nextPage = lastLoadedPage == nil ? 1 : lastLoadedPage! + 1
+        print("nextPage = \(nextPage)")
         let request = makeRequest(with: token, nextPage: nextPage)
         
         loadObject(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
@@ -83,17 +78,18 @@ final class ImagesListService {
                     for photo in photoResult {
                         let photo = Photo(photoResult: photo)
                         self?.photos.append(photo)
+                        print("Photos count in ImageListService: \(self?.photos.count ?? 0)")
                     }
                     NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
+                    self?.lastLoadedPage = nextPage
                 }
             case .failure(let error):
-                if case URLSession.NetworkError.urlSessionError = error {
-                    self?.lastToken = nil
-                }
+                print(error.localizedDescription)
             }
         }
     }
     
+    // MARK: - Private Methods
     private func loadObject(for request: URLRequest, completion: @escaping (Result<[PhotoResult], Error>) -> Void) {
         let dataTask = URLSession.shared.objectTask(for: request) { [weak self] result in
             completion(result)
@@ -109,4 +105,7 @@ final class ImagesListService {
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
     }
+    
+    // MARK: - Constants
+    static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
 }
