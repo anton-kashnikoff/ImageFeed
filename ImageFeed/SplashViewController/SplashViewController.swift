@@ -13,14 +13,13 @@ final class SplashViewController: UIViewController {
 
     // MARK: - Private Properties
     private let oauth2Service = OAuth2Service()
-    private let oauth2TokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService.shared
 
     // MARK: - UIViewController
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if let token = oauth2TokenStorage.authToken {
+        if let token = OAuth2TokenStorage.shared.authToken {
             fetchProfile(with: token)
             switchToTabBarController()
         } else {

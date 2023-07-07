@@ -52,24 +52,28 @@ struct URLsResult: Decodable {
     let full: String
 }
 
+struct LikePhotoResult: Decodable {
+    let photo: PhotoResult
+}
+
 final class ImagesListService {
     // MARK: - Private Properties
     private(set) var photos = [Photo]()
     private var lastLoadedPage: Int?
     private var activeSessionTask: URLSessionTask?
+    private var likeActiveSessionTask: URLSessionTask?
     
     // MARK: - Public methods
     func fetchPhotosNextPage() {
         assert(Thread.isMainThread)
-        guard let token = OAuth2TokenStorage().authToken else {
+        guard let token = OAuth2TokenStorage.shared.authToken else {
             return
         }
 
         activeSessionTask?.cancel()
         
         let nextPage = lastLoadedPage == nil ? 1 : lastLoadedPage! + 1
-        print("nextPage = \(nextPage)")
-        let request = makeRequest(with: token, nextPage: nextPage)
+        let request = makeRequest(with: token, url: URL(string: "https://api.unsplash.com/photos?page=\(nextPage)")!, method: "GET")
         
         loadObject(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
             switch result {
@@ -78,7 +82,6 @@ final class ImagesListService {
                     for photo in photoResult {
                         let photo = Photo(photoResult: photo)
                         self?.photos.append(photo)
-                        print("Photos count in ImageListService: \(self?.photos.count ?? 0)")
                     }
                     NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
                     self?.lastLoadedPage = nextPage
@@ -87,6 +90,39 @@ final class ImagesListService {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<LikePhotoResult, Error>) -> Void) {
+        assert(Thread.isMainThread)
+        guard let token = OAuth2TokenStorage.shared.authToken else {
+            return
+        }
+        
+        likeActiveSessionTask?.cancel()
+        
+        let request = makeRequest(with: token, url: URL(string: "https://api.unsplash.com/photos/\(photoId)/like")!, method: isLike ? "DELETE" : "POST")
+        let dataTask = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<LikePhotoResult, Error>) in
+            guard let self else {
+                return
+            }
+            
+            switch result {
+            case .success(let photoResult):
+                if let index = self.photos.firstIndex(where: {
+                    $0.id == photoId
+                }) {
+                    self.photos[index] = Photo(photoResult: photoResult.photo)
+                }
+                completion(.success(photoResult))
+                self.likeActiveSessionTask = nil
+            case .failure(let error):
+                completion(.failure(error))
+                self.likeActiveSessionTask = nil
+            }
+        }
+        
+        likeActiveSessionTask = dataTask
+        dataTask.resume()
     }
     
     // MARK: - Private Methods
@@ -100,9 +136,16 @@ final class ImagesListService {
         dataTask.resume()
     }
     
-    private func makeRequest(with token: String, nextPage: Int) -> URLRequest {
-        var request = URLRequest(url: URL(string: "https://api.unsplash.com/photos?page=\(nextPage)")!)
+    private func makeRequest(with token: String, url: URL, method: String) -> URLRequest {
+        var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        if method == "POST" {
+            request.httpMethod = "POST"
+        } else if method == "DELETE" {
+            request.httpMethod = "DELETE"
+        }
+        
         return request
     }
     
