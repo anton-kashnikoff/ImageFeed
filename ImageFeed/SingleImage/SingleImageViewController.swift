@@ -20,37 +20,14 @@ final class SingleImageViewController: UIViewController {
     // MARK: - Public Properties
     var imageObject: Photo?
     
-    var image: UIImage! // {
-//        didSet {
-//            guard isViewLoaded else {
-//                return
-//            }
-//            imageView.kf.setImage(with: URL(string: imageObject?.largeImageURL ?? ""))
-//        }
-//    }
+    // MARK: - Private Properties
+    private var image: UIImage?
     
     // MARK: - UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        imageView.kf.indicatorType = .activity
-        imageView.kf.setImage(with: URL(string: imageObject?.largeImageURL ?? "")) { [weak self] result in
-            guard let self else {
-                return
-            }
-            
-            switch result {
-            case .success(let imageResult):
-                print("success")
-                print("Result Image width: \(imageResult.image.size.width)")
-                print("Result Image height: \(imageResult.image.size.height)")
-                self.imageView.frame.size = imageResult.image.size
-                self.image = imageResult.image
-                self.updateMinZoomScale(for: imageResult.image.size)
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
+        setImage()
     }
     
     // MARK: - IBAction
@@ -68,20 +45,35 @@ final class SingleImageViewController: UIViewController {
         present(shareVC, animated: true)
     }
     
-    func updateMinZoomScale(for size: CGSize) {
-        print(scrollView.bounds.size.width)
-        print(size.width)
-        
-        print(scrollView.bounds.size.height)
-        print(size.height)
-        
+    // MARK: - Private Methods
+    private func setImage() {
+        UIBlockingProgressHUD.show()
+        imageView.kf.setImage(with: URL(string: imageObject?.largeImageURL ?? "")) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            guard let self else {
+                return
+            }
+            
+            switch result {
+            case .success(let imageResult):
+                self.imageView.frame.size = imageResult.image.size
+                self.image = imageResult.image
+                self.updateMinZoomScale(for: imageResult.image.size)
+            case .failure(_):
+                let alertController = UIAlertController(title: "Что-то пошло не так.", message: "Попробовать ещё раз?", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "Нет", style: .cancel))
+                alertController.addAction(UIAlertAction(title: "Повторить", style: .default) { [weak self] _ in
+                    self?.setImage()
+                })
+                present(alertController, animated: true)
+            }
+        }
+    }
+    
+    private func updateMinZoomScale(for size: CGSize) {
         let widthScale = scrollView.bounds.size.width / size.width
         let heightScale = scrollView.bounds.size.height / size.height
         let minScale = min(widthScale, heightScale)
-        
-        print("widthScale = \(widthScale)")
-        print("heightScale = \(heightScale)")
-        print("minScale = \(minScale)")
 
         scrollView.minimumZoomScale = minScale
         scrollView.zoomScale = minScale
@@ -90,18 +82,11 @@ final class SingleImageViewController: UIViewController {
 
 // MARK: - UIScrollViewDelegate
 extension SingleImageViewController: UIScrollViewDelegate {
-//    override func viewWillLayoutSubviews() {
-//        super.viewWillLayoutSubviews()
-//        updateMinZoomScale()
-//    }
-
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         imageView
     }
 
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        print("Image width: \(imageView.frame.size.width)")
-        print("Image height: \(imageView.frame.size.height)")
         let yOffset = max(0, (scrollView.bounds.size.height - imageView.frame.size.height) / 2)
         imageViewTopConstraint.constant = yOffset
         imageViewBottomConstraint.constant = yOffset

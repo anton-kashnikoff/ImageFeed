@@ -141,16 +141,17 @@ extension ImagesListViewController: ImagesListCellDelegate {
         }
         
         UIBlockingProgressHUD.show()
-        imagesListService?.changeLike(photoId: photo.id, isLike: photo.isLiked) { result in
+        imagesListService?.changeLike(photoId: photo.id, isLike: photo.isLiked) { [weak self] result in
             switch result {
             case .success(_):
                 let likeImage = photo.isLiked ? UIImage(named: "like_button_off") : UIImage(named: "like_button_on")
                 cell.likeButton.setImage(likeImage, for: .normal)
                 UIBlockingProgressHUD.dismiss()
-            case .failure(let error):
-                print(error.localizedDescription)
+            case .failure(_):
                 UIBlockingProgressHUD.dismiss()
-                // TODO: Показать ошибку с использованием UIAlertController
+                let alertController = UIAlertController(title: "Что-то пошло не так.", message: nil, preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .cancel))
+                self?.present(alertController, animated: true)
             }
         }
     }
