@@ -10,11 +10,11 @@ import Kingfisher
 
 final class ProfileViewController: UIViewController {
     // MARK: - Visual Components
-    private let profileImageView = UIImageView()
-    private let nameLabel = UILabel()
-    private let loginNameLabel = UILabel()
-    private let descriptionLabel = UILabel()
-    private let logoutButton = UIButton.systemButton(with: UIImage(named: "logout_button") ?? UIImage(), target: ProfileViewController.self, action: #selector(didTapLogoutButton))
+    private var profileImageView = UIImageView()
+    private var nameLabel = UILabel()
+    private var loginNameLabel = UILabel()
+    private var descriptionLabel = UILabel()
+    private var logoutButton = UIButton()
 
     // MARK: - Private Properties
     private let profileService = ProfileService.shared
@@ -46,17 +46,21 @@ final class ProfileViewController: UIViewController {
 
     // MARK: - Private methods
     private func updateAvatar() {
-        guard let profileImagePath = ProfileImageService.shared.avatarURL, let profileImageURL = URL(string: profileImagePath) else {
+        guard let profileImagePath = ProfileImageService.shared.avatarURL else {
             return
         }
 
-        let processor = RoundCornerImageProcessor(cornerRadius: 16)
+        let processor = RoundCornerImageProcessor(cornerRadius: 16, backgroundColor: UIColor.ypBlack)
+        
         profileImageView.kf.indicatorType = .activity
-        profileImageView.kf.setImage(with: profileImageURL, placeholder: UIImage(named: "placeholder.jpeg"), options: [.processor(processor)])
+//        profileImageView.kf.setImage(with: URL(string: profileImagePath), placeholder: UIImage(named: "placeholder.jpeg"))
+        profileImageView.kf.setImage(with: URL(string: profileImagePath), placeholder: UIImage(named: "placeholder.jpeg"), options: [.processor(processor)])
     }
 
     private func configureProfileImageView() {
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
+//        profileImageView.layer.cornerRadius = 16
+        
         view.addSubview(profileImageView)
         
         NSLayoutConstraint.activate([
@@ -111,6 +115,7 @@ final class ProfileViewController: UIViewController {
     }
     
     private func configureLogoutButton() {
+        logoutButton = UIButton.systemButton(with: UIImage(named: "logout_button") ?? UIImage(), target: self, action: #selector(didTapLogoutButton))
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         logoutButton.tintColor = .ypRed
         view.addSubview(logoutButton)
@@ -130,5 +135,23 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc private func didTapLogoutButton() {
+        let alertController = UIAlertController(title: "Вы уверены, что хотите выйти?", message: "Чтобы продолжить смотреть фотографии, нужно будет заново авторизоваться.", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Да", style: .default) { [weak self] _ in
+            guard let self else {
+                return
+            }
+            
+            self.profileService.clean()
+            
+            self.updateAvatar()
+            self.nameLabel = UILabel()
+            self.loginNameLabel = UILabel()
+            self.descriptionLabel = UILabel()
+            self.logoutButton = UIButton()
+            
+            self.present(SplashViewController(), animated: true)
+        })
+        alertController.addAction(UIAlertAction(title: "Нет", style: .cancel))
+        present(alertController, animated: true)
     }
 }

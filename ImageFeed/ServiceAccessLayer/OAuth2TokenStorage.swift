@@ -21,6 +21,13 @@ final class OAuth2TokenStorage {
         }
     }
     
+    // MARK: - Public Methods
+    func removeToken() {
+        guard KeychainWrapper.standard.removeObject(forKey: "Auth token") else {
+            return
+        }
+    }
+    
     // MARK: - Constants
     static let shared = OAuth2TokenStorage()
 }

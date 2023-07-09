@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import WebKit
 
 struct ProfileResult: Codable {
     let username: String
@@ -44,6 +45,16 @@ final class ProfileService {
     private(set) var profile: Profile?
 
     // MARK: - Public methods
+    func clean() {
+        OAuth2TokenStorage.shared.removeToken()
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+            records.forEach { record in
+                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record]) {}
+            }
+        }
+    }
+    
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         assert(Thread.isMainThread)
         activeSessionTask?.cancel()
