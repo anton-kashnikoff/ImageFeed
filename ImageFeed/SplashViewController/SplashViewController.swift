@@ -8,6 +8,8 @@
 import UIKit
 
 final class SplashViewController: UIViewController {
+    var logout: String?
+    
     // MARK: - Visual Components
     private let logoImageView = UIImageView()
 
@@ -16,32 +18,39 @@ final class SplashViewController: UIViewController {
     private let profileService = ProfileService.shared
 
     // MARK: - UIViewController
+    override func viewDidLoad() {
+        print("viewDidLoad of SplashVC starts")
+        super.viewDidLoad()
+
+        makeViewController()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
+        print("viewDidAppear of SplashVC starts")
         super.viewDidAppear(animated)
 
         if let token = OAuth2TokenStorage.shared.authToken {
+            print("token is here")
             fetchProfile(with: token)
             switchToTabBarController()
         } else {
+            print("token is nil")
+            UIBlockingProgressHUD.dismiss()
             guard let authViewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
                 assertionFailure("Failed to show Authentication Screen")
                 return
             }
 
+            print("present authVC")
             authViewController.delegate = self
             authViewController.modalPresentationStyle = .fullScreen
             present(authViewController, animated: true)
         }
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        makeViewController()
-    }
-
     // MARK: - Private methods
     private func switchToTabBarController() {
+        print("switchToTabBarController of SplashVC starts")
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else {
             fatalError("Invalid Configuration")
         }
@@ -79,15 +88,23 @@ final class SplashViewController: UIViewController {
     }
 
     private func makeViewController() {
+        print("makeViewController of SplashVC starts")
         view.backgroundColor = .ypBlack
-        logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        logoImageView.image = UIImage(named: "logo")
-        view.addSubview(logoImageView)
-
-        NSLayoutConstraint.activate([
-            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
+        
+        if logout != nil {
+            print("logout is here")
+            UIBlockingProgressHUD.show()
+        } else {
+            print("logout is nil")
+            logoImageView.translatesAutoresizingMaskIntoConstraints = false
+            logoImageView.image = UIImage(named: "logo")
+            view.addSubview(logoImageView)
+            
+            NSLayoutConstraint.activate([
+                logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            ])
+        }
     }
 }
 

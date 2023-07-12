@@ -37,15 +37,18 @@ final class ProfileViewController: UIViewController {
         configureDescriptionLabel()
 
         profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
+            print("notification received")
             self?.updateAvatar()
         }
 
+        print("I'm inside viewDidLoad method now")
         updateAvatar()
         updateProfileDetails()
     }
 
     // MARK: - Private methods
     private func updateAvatar() {
+        print("updateAvatar method starts")
         guard let profileImagePath = ProfileImageService.shared.avatarURL else {
             return
         }
@@ -53,13 +56,11 @@ final class ProfileViewController: UIViewController {
         let processor = RoundCornerImageProcessor(cornerRadius: 16, backgroundColor: UIColor.ypBlack)
         
         profileImageView.kf.indicatorType = .activity
-//        profileImageView.kf.setImage(with: URL(string: profileImagePath), placeholder: UIImage(named: "placeholder.jpeg"))
         profileImageView.kf.setImage(with: URL(string: profileImagePath), placeholder: UIImage(named: "placeholder.jpeg"), options: [.processor(processor)])
     }
 
     private func configureProfileImageView() {
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
-//        profileImageView.layer.cornerRadius = 16
         
         view.addSubview(profileImageView)
         
@@ -129,9 +130,20 @@ final class ProfileViewController: UIViewController {
     }
 
     private func updateProfileDetails() {
+        print("updateProfileDetails method starts")
         nameLabel.text = profileService.profile?.name
         loginNameLabel.text = profileService.profile?.loginName
         descriptionLabel.text = profileService.profile?.bio
+    }
+    
+    private func switchToSplashViewController() {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else {
+            fatalError("Invalid Configuration")
+        }
+        
+        let splashViewController = SplashViewController()
+        splashViewController.logout = "logout"
+        window.rootViewController = splashViewController
     }
     
     @objc private func didTapLogoutButton() {
@@ -149,7 +161,7 @@ final class ProfileViewController: UIViewController {
             self.descriptionLabel = UILabel()
             self.logoutButton = UIButton()
             
-            self.present(SplashViewController(), animated: true)
+            self.switchToSplashViewController()
         })
         alertController.addAction(UIAlertAction(title: "Нет", style: .cancel))
         present(alertController, animated: true)
