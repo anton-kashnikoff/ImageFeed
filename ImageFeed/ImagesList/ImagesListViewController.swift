@@ -61,9 +61,17 @@ class ImagesListViewController: UIViewController {
         guard let photo = imagesListService?.photos[indexPath.row] else {
             return
         }
+        cell.setupGradient(for: photo)
         
-        cell.cellImage.kf.indicatorType = .activity
-        cell.cellImage.kf.setImage(with: URL(string: photo.thumbImageURL), placeholder: UIImage(named: "stub"))
+        cell.cellImage.kf.setImage(with: URL(string: photo.thumbImageURL)) { result in
+            switch result {
+            case .success(_):
+                cell.gradient.removeFromSuperlayer()
+            case .failure(let error):
+                print(error.localizedDescription)
+                cell.cellImage.image = UIImage(named: "stub")
+            }
+        }
         
         cell.dateLabel.text = dateFormatter.string(from: photo.createdAt ?? Date())
 

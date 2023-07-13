@@ -19,18 +19,15 @@ final class SplashViewController: UIViewController {
 
     // MARK: - UIViewController
     override func viewDidLoad() {
-        print("viewDidLoad of SplashVC starts")
         super.viewDidLoad()
 
         makeViewController()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print("viewDidAppear of SplashVC starts")
         super.viewDidAppear(animated)
 
         if let token = OAuth2TokenStorage.shared.authToken {
-            print("token is here")
             fetchProfile(with: token)
             switchToTabBarController()
         } else {
@@ -41,7 +38,6 @@ final class SplashViewController: UIViewController {
                 return
             }
 
-            print("present authVC")
             authViewController.delegate = self
             authViewController.modalPresentationStyle = .fullScreen
             present(authViewController, animated: true)
@@ -50,7 +46,6 @@ final class SplashViewController: UIViewController {
 
     // MARK: - Private methods
     private func switchToTabBarController() {
-        print("switchToTabBarController of SplashVC starts")
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else {
             fatalError("Invalid Configuration")
         }
@@ -88,14 +83,11 @@ final class SplashViewController: UIViewController {
     }
 
     private func makeViewController() {
-        print("makeViewController of SplashVC starts")
         view.backgroundColor = .ypBlack
         
         if logout != nil {
-            print("logout is here")
             UIBlockingProgressHUD.show()
         } else {
-            print("logout is nil")
             logoImageView.translatesAutoresizingMaskIntoConstraints = false
             logoImageView.image = UIImage(named: "logo")
             view.addSubview(logoImageView)

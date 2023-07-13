@@ -19,6 +19,7 @@ final class ProfileViewController: UIViewController {
     // MARK: - Private Properties
     private let profileService = ProfileService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
+    private var animationLayers = Set<CALayer>()
     
     // MARK: - UIViewController
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -37,18 +38,20 @@ final class ProfileViewController: UIViewController {
         configureDescriptionLabel()
 
         profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
-            print("notification received")
+            self?.animationLayers.forEach {
+                $0.removeFromSuperlayer()
+            }
             self?.updateAvatar()
         }
 
-        print("I'm inside viewDidLoad method now")
+        setupPhotoGradient()
+        setupLabelsGradient()
         updateAvatar()
         updateProfileDetails()
     }
 
     // MARK: - Private methods
     private func updateAvatar() {
-        print("updateAvatar method starts")
         guard let profileImagePath = ProfileImageService.shared.avatarURL else {
             return
         }
@@ -56,7 +59,17 @@ final class ProfileViewController: UIViewController {
         let processor = RoundCornerImageProcessor(cornerRadius: 16, backgroundColor: UIColor.ypBlack)
         
         profileImageView.kf.indicatorType = .activity
-        profileImageView.kf.setImage(with: URL(string: profileImagePath), placeholder: UIImage(named: "placeholder.jpeg"), options: [.processor(processor)])
+        profileImageView.kf.setImage(with: URL(string: profileImagePath), options: [.processor(processor)]) { [weak self] result in
+            switch result {
+            case .success(_):
+                self?.animationLayers.forEach {
+                    $0.removeFromSuperlayer()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+                self?.profileImageView.image = UIImage(named: "placeholder.jpeg")
+            }
+        }
     }
 
     private func configureProfileImageView() {
@@ -130,7 +143,6 @@ final class ProfileViewController: UIViewController {
     }
 
     private func updateProfileDetails() {
-        print("updateProfileDetails method starts")
         nameLabel.text = profileService.profile?.name
         loginNameLabel.text = profileService.profile?.loginName
         descriptionLabel.text = profileService.profile?.bio
@@ -144,6 +156,46 @@ final class ProfileViewController: UIViewController {
         let splashViewController = SplashViewController()
         splashViewController.logout = "logout"
         window.rootViewController = splashViewController
+    }
+    
+    private func setupPhotoGradient() {
+        let gradient = CAGradientLayer()
+        gradient.frame = CGRect(origin: .zero, size: CGSize(width: 70, height: 70))
+        gradient.locations = [0, 0.1, 0.3]
+        gradient.colors = [UIColor(red: 0.682, green: 0.686, blue: 0.706, alpha: 1).cgColor, UIColor(red: 0.531, green: 0.533, blue: 0.553, alpha: 1).cgColor, UIColor(red: 0.431, green: 0.433, blue: 0.453, alpha: 1).cgColor]
+        gradient.startPoint = CGPoint(x: 0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1, y: 0.5)
+        gradient.cornerRadius = 35
+        gradient.masksToBounds = true
+        animationLayers.insert(gradient)
+        profileImageView.layer.addSublayer(gradient)
+        
+        let gradientChangeAnimation = CABasicAnimation(keyPath: "locations")
+        gradientChangeAnimation.duration = 1.0
+        gradientChangeAnimation.repeatCount = .infinity
+        gradientChangeAnimation.fromValue = [0, 0.1, 0.3]
+        gradientChangeAnimation.toValue = [0, 0.8, 1]
+        gradient.add(gradientChangeAnimation, forKey: "locationsPhotoChange")
+        
+        // TODO: add gradient for labels
+    }
+    
+    private func setupLabelsGradient() {
+        let gradientNameLabel = CAGradientLayer()
+        gradientNameLabel.frame = CGRect(origin: .zero, size: nameLabel.frame.size)
+        gradientNameLabel.locations = [0, 0.1, 0.3]
+        gradientNameLabel.colors = [UIColor(red: 0.682, green: 0.686, blue: 0.706, alpha: 1).cgColor, UIColor(red: 0.531, green: 0.533, blue: 0.553, alpha: 1).cgColor, UIColor(red: 0.431, green: 0.433, blue: 0.453, alpha: 1).cgColor]
+        gradientNameLabel.startPoint = CGPoint(x: 0, y: 0.5)
+        gradientNameLabel.endPoint = CGPoint(x: 1, y: 0.5)
+        animationLayers.insert(gradientNameLabel)
+        nameLabel.layer.addSublayer(gradientNameLabel)
+        
+        let gradientChangeAnimation = CABasicAnimation(keyPath: "locations")
+        gradientChangeAnimation.duration = 1.0
+        gradientChangeAnimation.repeatCount = .infinity
+        gradientChangeAnimation.fromValue = [0, 0.1, 0.3]
+        gradientChangeAnimation.toValue = [0, 0.8, 1]
+        gradientNameLabel.add(gradientChangeAnimation, forKey: "locationsNameLabelChange")
     }
     
     @objc private func didTapLogoutButton() {
