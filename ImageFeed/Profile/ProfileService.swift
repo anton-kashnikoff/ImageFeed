@@ -46,7 +46,6 @@ final class ProfileService {
 
     // MARK: - Public methods
     func clean() {
-        print("clean method starts")
         OAuth2TokenStorage.shared.removeToken()
         HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
         WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
@@ -57,7 +56,6 @@ final class ProfileService {
     }
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
-        print("fetchProfile method starts")
         assert(Thread.isMainThread)
         activeSessionTask?.cancel()
 
@@ -66,7 +64,6 @@ final class ProfileService {
         loadObject(for: request) { [weak self] result in
             switch result {
             case .success(let profileResult):
-                print("loadObject result success")
                 let profile = Profile(profileResult: profileResult)
                 self?.profile = profile
                 completion(.success(profile))
@@ -78,7 +75,6 @@ final class ProfileService {
 
     // MARK: - Private methods
     private func loadObject(for request: URLRequest, completion: @escaping (Result<ProfileResult, Error>) -> Void) {
-        print("loadObject method starts")
         let dataTask = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
             completion(result)
             self?.activeSessionTask = nil

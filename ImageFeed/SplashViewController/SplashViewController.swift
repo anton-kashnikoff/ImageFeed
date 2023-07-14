@@ -19,29 +19,24 @@ final class SplashViewController: UIViewController {
 
     // MARK: - UIViewController
     override func viewDidLoad() {
-        print("viewDidLoad of SplashVC starts")
         super.viewDidLoad()
 
         makeViewController()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print("viewDidAppear of SplashVC starts")
         super.viewDidAppear(animated)
 
         if let token = OAuth2TokenStorage.shared.authToken {
-            print("token is here")
             fetchProfile(with: token)
             switchToTabBarController()
         } else {
-            print("token is nil")
             UIBlockingProgressHUD.dismiss()
             guard let authViewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
                 assertionFailure("Failed to show Authentication Screen")
                 return
             }
 
-            print("present authVC")
             authViewController.delegate = self
             authViewController.modalPresentationStyle = .fullScreen
             present(authViewController, animated: true)
@@ -50,7 +45,6 @@ final class SplashViewController: UIViewController {
 
     // MARK: - Private methods
     private func switchToTabBarController() {
-        print("switchToTabBarController of SplashVC starts")
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else {
             fatalError("Invalid Configuration")
         }

@@ -37,32 +37,28 @@ final class ProfileViewController: UIViewController {
         configureDescriptionLabel()
 
         profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
-            print("notification received")
             self?.updateAvatar()
             self?.updateProfileDetails()
         }
 
-        print("I'm inside viewDidLoad method now")
         updateAvatar()
         updateProfileDetails()
     }
 
     // MARK: - Private methods
     private func updateAvatar() {
-        print("updateAvatar method starts")
         guard let profileImagePath = ProfileImageService.shared.avatarURL else {
             return
         }
 
         let processor = RoundCornerImageProcessor(cornerRadius: 16, backgroundColor: UIColor.ypBlack)
-        
         profileImageView.kf.indicatorType = .activity
-        profileImageView.kf.setImage(with: URL(string: profileImagePath), placeholder: UIImage(named: "placeholder.jpeg"), options: [.processor(processor)])
+        profileImageView.kf.setImage(with: URL(string: profileImagePath), options: [.processor(processor)])
     }
 
     private func configureProfileImageView() {
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        
+        profileImageView.image = UIImage(named: "placeholder")
         view.addSubview(profileImageView)
         
         NSLayoutConstraint.activate([
@@ -131,7 +127,6 @@ final class ProfileViewController: UIViewController {
     }
 
     private func updateProfileDetails() {
-        print("updateProfileDetails method starts")
         nameLabel.text = profileService.profile?.name
         loginNameLabel.text = profileService.profile?.loginName
         descriptionLabel.text = profileService.profile?.bio
