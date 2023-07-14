@@ -39,6 +39,7 @@ final class ProfileViewController: UIViewController {
         profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
             print("notification received")
             self?.updateAvatar()
+            self?.updateProfileDetails()
         }
 
         print("I'm inside viewDidLoad method now")
