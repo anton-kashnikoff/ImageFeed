@@ -42,6 +42,7 @@ final class ProfileViewController: UIViewController {
                 $0.removeFromSuperlayer()
             }
             self?.updateAvatar()
+            self?.updateProfileDetails()
         }
 
 //        setupPhotoGradient()
