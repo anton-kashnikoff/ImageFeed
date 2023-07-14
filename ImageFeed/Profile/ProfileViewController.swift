@@ -142,7 +142,7 @@ final class ProfileViewController: UIViewController {
         }
         
         let splashViewController = SplashViewController()
-        splashViewController.logout = "logout"
+        splashViewController.showLoadingCircle = true
         window.rootViewController = splashViewController
     }
     

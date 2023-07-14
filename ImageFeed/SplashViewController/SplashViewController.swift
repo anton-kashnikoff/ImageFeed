@@ -8,7 +8,7 @@
 import UIKit
 
 final class SplashViewController: UIViewController {
-    var logout: String?
+    var showLoadingCircle = false
     
     // MARK: - Visual Components
     private let logoImageView = UIImageView()
@@ -88,14 +88,12 @@ final class SplashViewController: UIViewController {
     }
 
     private func makeViewController() {
-        print("makeViewController of SplashVC starts")
         view.backgroundColor = .ypBlack
         
-        if logout != nil {
-            print("logout is here")
+        if showLoadingCircle {
             UIBlockingProgressHUD.show()
+            showLoadingCircle = false
         } else {
-            print("logout is nil")
             logoImageView.translatesAutoresizingMaskIntoConstraints = false
             logoImageView.image = UIImage(named: "logo")
             view.addSubview(logoImageView)
