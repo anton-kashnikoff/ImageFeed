@@ -138,6 +138,11 @@ extension ImagesListViewController: UITableViewDelegate {
         if indexPath.row == imagesListService.photos.count - 1 {
             imagesListService.fetchPhotosNextPage()
         }
+        
+        if let cell = cell as? ImagesListCell {
+            let photo = imagesListService.photos[indexPath.row]
+            cell.setupGradient(for: photo)
+        }
     }
 }
 
