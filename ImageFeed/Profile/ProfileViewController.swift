@@ -45,8 +45,6 @@ final class ProfileViewController: UIViewController {
             self?.updateProfileDetails()
         }
 
-//        setupPhotoGradient()
-//        setupLabelsGradient()
         setupGradient(for: profileImageView, key: "ProfileImageView")
         setupGradient(for: nameLabel, key: "NameLabel")
         setupGradient(for: loginNameLabel, key: "LoginNameLabel")
@@ -148,9 +146,13 @@ final class ProfileViewController: UIViewController {
     }
 
     private func updateProfileDetails() {
-        nameLabel.text = profileService.profile?.name
-        loginNameLabel.text = profileService.profile?.loginName
-        descriptionLabel.text = profileService.profile?.bio
+        guard let profile = profileService.profile else {
+            return
+        }
+        
+        nameLabel.text = profile.name
+        loginNameLabel.text = profile.loginName
+        descriptionLabel.text = profile.bio
     }
     
     private func switchToSplashViewController() {
@@ -162,26 +164,6 @@ final class ProfileViewController: UIViewController {
         splashViewController.logout = "logout"
         window.rootViewController = splashViewController
     }
-    
-//    private func setupPhotoGradient() {
-//        let gradient = CAGradientLayer()
-//        gradient.frame = CGRect(origin: .zero, size: CGSize(width: 70, height: 70))
-//        gradient.locations = [0, 0.1, 0.3]
-//        gradient.colors = [UIColor(red: 0.682, green: 0.686, blue: 0.706, alpha: 1).cgColor, UIColor(red: 0.531, green: 0.533, blue: 0.553, alpha: 1).cgColor, UIColor(red: 0.431, green: 0.433, blue: 0.453, alpha: 1).cgColor]
-//        gradient.startPoint = CGPoint(x: 0, y: 0.5)
-//        gradient.endPoint = CGPoint(x: 1, y: 0.5)
-//        gradient.cornerRadius = 35
-//        gradient.masksToBounds = true
-//        animationLayers.insert(gradient)
-//        profileImageView.layer.addSublayer(gradient)
-//
-//        let gradientChangeAnimation = CABasicAnimation(keyPath: "locations")
-//        gradientChangeAnimation.duration = 1.0
-//        gradientChangeAnimation.repeatCount = .infinity
-//        gradientChangeAnimation.fromValue = [0, 0.1, 0.3]
-//        gradientChangeAnimation.toValue = [0, 0.8, 1]
-//        gradient.add(gradientChangeAnimation, forKey: "locationsPhotoChange")
-//    }
     
     private func setupGradient(for view: UIView, key: String) {
         let gradient = CAGradientLayer()
@@ -208,59 +190,6 @@ final class ProfileViewController: UIViewController {
         print("view.frame.size = \(view.frame.size)")
         print("gradient.frame = \(gradient.frame.size)")
     }
-    
-//    private func setupLabelsGradient() {
-//        let gradientNameLabelChangeAnimation = CABasicAnimation(keyPath: "locations")
-//        gradientNameLabelChangeAnimation.duration = 1.0
-//        gradientNameLabelChangeAnimation.repeatCount = .infinity
-//        gradientNameLabelChangeAnimation.fromValue = [0, 0.1, 0.3]
-//        gradientNameLabelChangeAnimation.toValue = [0, 0.8, 1]
-//
-//        let gradientNameLabel = CAGradientLayer()
-//        nameLabel.layoutIfNeeded()
-//        gradientNameLabel.frame = CGRect(origin: .zero, size: nameLabel.frame.size)
-//        gradientNameLabel.locations = [0, 0.1, 0.3]
-//        gradientNameLabel.colors = [UIColor(red: 0.682, green: 0.686, blue: 0.706, alpha: 1).cgColor, UIColor(red: 0.531, green: 0.533, blue: 0.553, alpha: 1).cgColor, UIColor(red: 0.431, green: 0.433, blue: 0.453, alpha: 1).cgColor]
-//        gradientNameLabel.startPoint = CGPoint(x: 0, y: 0.5)
-//        gradientNameLabel.endPoint = CGPoint(x: 1, y: 0.5)
-//        animationLayers.insert(gradientNameLabel)
-//        nameLabel.layer.addSublayer(gradientNameLabel)
-//        gradientNameLabel.add(gradientNameLabelChangeAnimation, forKey: "locationsNameLabelChange")
-//
-//        let gradientLoginNameLabelChangeAnimation = CABasicAnimation(keyPath: "locations")
-//        gradientLoginNameLabelChangeAnimation.duration = 1.0
-//        gradientLoginNameLabelChangeAnimation.repeatCount = .infinity
-//        gradientLoginNameLabelChangeAnimation.fromValue = [0, 0.1, 0.3]
-//        gradientLoginNameLabelChangeAnimation.toValue = [0, 0.8, 1]
-//
-//        let gradientLoginNameLabel = CAGradientLayer()
-//        loginNameLabel.layoutIfNeeded()
-//        gradientLoginNameLabel.frame = CGRect(origin: .zero, size: loginNameLabel.frame.size)
-//        gradientLoginNameLabel.locations = [0, 0.1, 0.3]
-//        gradientLoginNameLabel.colors = [UIColor(red: 0.682, green: 0.686, blue: 0.706, alpha: 1).cgColor, UIColor(red: 0.531, green: 0.533, blue: 0.553, alpha: 1).cgColor, UIColor(red: 0.431, green: 0.433, blue: 0.453, alpha: 1).cgColor]
-//        gradientLoginNameLabel.startPoint = CGPoint(x: 0, y: 0.5)
-//        gradientLoginNameLabel.endPoint = CGPoint(x: 1, y: 0.5)
-//        animationLayers.insert(gradientLoginNameLabel)
-//        loginNameLabel.layer.addSublayer(gradientLoginNameLabel)
-//        gradientLoginNameLabel.add(gradientLoginNameLabelChangeAnimation, forKey: "locationsLoginNameLabelChange")
-//
-//        let gradientDescriptionLabelChangeAnimation = CABasicAnimation(keyPath: "locations")
-//        gradientDescriptionLabelChangeAnimation.duration = 1.0
-//        gradientDescriptionLabelChangeAnimation.repeatCount = .infinity
-//        gradientDescriptionLabelChangeAnimation.fromValue = [0, 0.1, 0.3]
-//        gradientDescriptionLabelChangeAnimation.toValue = [0, 0.8, 1]
-//
-//        let gradientDescriptionLabel = CAGradientLayer()
-//        descriptionLabel.layoutIfNeeded()
-//        gradientDescriptionLabel.frame = CGRect(origin: .zero, size: descriptionLabel.frame.size)
-//        gradientDescriptionLabel.locations = [0, 0.1, 0.3]
-//        gradientDescriptionLabel.colors = [UIColor(red: 0.682, green: 0.686, blue: 0.706, alpha: 1).cgColor, UIColor(red: 0.531, green: 0.533, blue: 0.553, alpha: 1).cgColor, UIColor(red: 0.431, green: 0.433, blue: 0.453, alpha: 1).cgColor]
-//        gradientDescriptionLabel.startPoint = CGPoint(x: 0, y: 0.5)
-//        gradientDescriptionLabel.endPoint = CGPoint(x: 1, y: 0.5)
-//        animationLayers.insert(gradientDescriptionLabel)
-//        descriptionLabel.layer.addSublayer(gradientDescriptionLabel)
-//        gradientDescriptionLabel.add(gradientDescriptionLabelChangeAnimation, forKey: "locationsDescriptionLabelChange")
-//    }
     
     @objc private func didTapLogoutButton() {
         let alertController = UIAlertController(title: "Вы уверены, что хотите выйти?", message: "Чтобы продолжить смотреть фотографии, нужно будет заново авторизоваться.", preferredStyle: .alert)

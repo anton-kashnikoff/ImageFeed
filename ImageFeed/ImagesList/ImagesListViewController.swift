@@ -55,6 +55,12 @@ class ImagesListViewController: UIViewController {
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
+    }
+    
     // MARK: - Public methods
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         cell.delegate = self
@@ -138,11 +144,11 @@ extension ImagesListViewController: UITableViewDelegate {
         if indexPath.row == imagesListService.photos.count - 1 {
             imagesListService.fetchPhotosNextPage()
         }
-        
-        if let cell = cell as? ImagesListCell {
-            let photo = imagesListService.photos[indexPath.row]
-            cell.setupGradient(for: photo)
-        }
+//
+//        if let cell = cell as? ImagesListCell {
+//            let photo = imagesListService.photos[indexPath.row]
+//            cell.setupGradient(for: photo)
+//        }
     }
 }
 
