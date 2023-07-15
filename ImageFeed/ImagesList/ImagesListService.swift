@@ -59,7 +59,7 @@ struct LikePhotoResult: Decodable {
 final class ImagesListService {
     // MARK: - Private Properties
     private(set) var photos = [Photo]()
-    private var lastLoadedPage: Int?
+    private var lastLoadedPage = 1
     private var activeSessionTask: URLSessionTask?
     private var likeActiveSessionTask: URLSessionTask?
     
@@ -72,7 +72,7 @@ final class ImagesListService {
 
         activeSessionTask?.cancel()
         
-        let nextPage = lastLoadedPage == nil ? 1 : lastLoadedPage! + 1
+        let nextPage = lastLoadedPage == 1 ? 1 : lastLoadedPage + 1
         let request = makeRequest(with: token, url: URL(string: "https://api.unsplash.com/photos?page=\(nextPage)")!, method: "GET")
         
         loadObject(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
