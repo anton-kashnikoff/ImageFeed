@@ -15,6 +15,7 @@ final class AuthViewController: UIViewController {
     // MARK: - Private Properties
     private let showWebViewSegueIdentifier = "ShowWebView"
 
+    // MARK: - Public Properties
     weak var delegate: AuthViewControllerDelegate?
 
     // MARK: - UIViewController
@@ -23,6 +24,9 @@ final class AuthViewController: UIViewController {
             guard let webViewViewController = segue.destination as? WebViewViewController else {
                 fatalError("Failed to prepare for \(showWebViewSegueIdentifier)")
             }
+            let webViewPresenter = WebViewPresenter(authHelper: AuthHelper())
+            webViewViewController.presenter = webViewPresenter
+            webViewPresenter.webView = webViewViewController
             webViewViewController.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)
