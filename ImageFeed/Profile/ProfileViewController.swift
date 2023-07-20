@@ -8,17 +8,27 @@
 import UIKit
 import Kingfisher
 
-final class ProfileViewController: UIViewController {
+public protocol ProfileViewControllerProtocol: AnyObject {
+    var profilePresenter: ProfilePresenterProtocol? { get set }
+    var profileImageView: UIImageView { get set }
+    var nameLabel: UILabel { get set }
+    var loginNameLabel: UILabel { get set }
+    var descriptionLabel: UILabel { get set }
+}
+
+final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
     // MARK: - Visual Components
-    private var profileImageView = UIImageView()
-    private var nameLabel = UILabel()
-    private var loginNameLabel = UILabel()
-    private var descriptionLabel = UILabel()
+    var profileImageView = UIImageView()
+    var nameLabel = UILabel()
+    var loginNameLabel = UILabel()
+    var descriptionLabel = UILabel()
     private var logoutButton = UIButton()
 
     // MARK: - Private Properties
-    private let profileService = ProfileService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
+    
+    // MARK: - Public Properties
+    var profilePresenter: ProfilePresenterProtocol?
     
     // MARK: - UIViewController
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -37,25 +47,15 @@ final class ProfileViewController: UIViewController {
         configureDescriptionLabel()
 
         profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
-            self?.updateAvatar()
-            self?.updateProfileDetails()
+            self?.profilePresenter?.updateAvatar()
+            self?.profilePresenter?.updateProfileDetails()
         }
 
-        updateAvatar()
-        updateProfileDetails()
+        profilePresenter?.updateAvatar()
+        profilePresenter?.updateProfileDetails()
     }
 
-    // MARK: - Private methods
-    private func updateAvatar() {
-        guard let profileImagePath = ProfileImageService.shared.avatarURL else {
-            return
-        }
-
-        let processor = RoundCornerImageProcessor(cornerRadius: 16, backgroundColor: UIColor.ypBlack)
-        profileImageView.kf.indicatorType = .activity
-        profileImageView.kf.setImage(with: URL(string: profileImagePath), options: [.processor(processor)])
-    }
-
+    // MARK: - Private Methods
     private func configureProfileImageView() {
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         profileImageView.image = UIImage(named: "placeholder")
@@ -125,39 +125,23 @@ final class ProfileViewController: UIViewController {
             logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
     }
-
-    private func updateProfileDetails() {
-        nameLabel.text = profileService.profile?.name
-        loginNameLabel.text = profileService.profile?.loginName
-        descriptionLabel.text = profileService.profile?.bio
-    }
-    
-    private func switchToSplashViewController() {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else {
-            fatalError("Invalid Configuration")
-        }
-        
-        let splashViewController = SplashViewController()
-        splashViewController.showLoadingCircle = true
-        window.rootViewController = splashViewController
-    }
     
     @objc private func didTapLogoutButton() {
         let alertController = UIAlertController(title: "Вы уверены, что хотите выйти?", message: "Чтобы продолжить смотреть фотографии, нужно будет заново авторизоваться.", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Да", style: .default) { [weak self] _ in
-            guard let self else {
+            guard let self, let profilePresenter else {
                 return
             }
             
-            self.profileService.clean()
+            profilePresenter.profileService?.clean()
+            profilePresenter.updateAvatar()
             
-            self.updateAvatar()
             self.nameLabel = UILabel()
             self.loginNameLabel = UILabel()
             self.descriptionLabel = UILabel()
             self.logoutButton = UIButton()
             
-            self.switchToSplashViewController()
+            profilePresenter.switchToSplashViewController()
         })
         alertController.addAction(UIAlertAction(title: "Нет", style: .cancel))
         present(alertController, animated: true)
