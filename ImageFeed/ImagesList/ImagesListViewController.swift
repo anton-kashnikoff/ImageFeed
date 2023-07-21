@@ -10,21 +10,21 @@ import Kingfisher
 
 public protocol ImagesListViewControllerProtocol: AnyObject {
     var imagesListPresenter: ImagesListPresenterProtocol? { get set }
+    var imagesListService: ImagesListServiceProtocol? { get set }
     func showErrorAlert()
 }
 
 class ImagesListViewController: UIViewController & ImagesListViewControllerProtocol {
     // MARK: - IBOutlet
-    @IBOutlet private var tableView: UITableView!
+    @IBOutlet var tableView: UITableView!
     
     // MARK: - Private Properties
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
-    
     private var imagesListServiceObserver: NSObjectProtocol?
-    private var imagesListService: ImagesListService?
     
     // MARK: - Public Properties
     var imagesListPresenter: ImagesListPresenterProtocol?
+    var imagesListService: ImagesListServiceProtocol?
     
     // MARK: - UIViewController
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -37,7 +37,7 @@ class ImagesListViewController: UIViewController & ImagesListViewControllerProto
                 return
             }
             
-            viewController.imageObject = imagesListService.photos[indexPath.row]
+            viewController.imageObject = imagesListService.photos[indexPath.row] as? Photo
         } else {
             super.prepare(for: segue, sender: sender)
         }

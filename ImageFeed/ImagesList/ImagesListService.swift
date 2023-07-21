@@ -8,16 +8,19 @@
 import Foundation
 
 public protocol ImagesListServiceProtocol {
+    var photos: [PhotoProtocol] { get set }
     func fetchPhotosNextPage()
-    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Decodable, Error>) -> Void)
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<LikePhotoResult, Error>) -> Void)
 }
 
-final class ImagesListService {
+final class ImagesListService: ImagesListServiceProtocol {
     // MARK: - Private Properties
-    private(set) var photos = [Photo]()
     private var lastLoadedPage = 1
     private var activeSessionTask: URLSessionTask?
     private var likeActiveSessionTask: URLSessionTask?
+    
+    // MARK: - Public Properties
+    var photos = [PhotoProtocol]()
     
     // MARK: - Public methods
     func fetchPhotosNextPage() {

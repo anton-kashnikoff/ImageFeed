@@ -5,7 +5,6 @@
 //  Created by Антон Кашников on 20.07.2023.
 //
 
-import Foundation
 import ImageFeed
 
 final class ProfilePresenterSpy: ProfilePresenterProtocol {
