@@ -7,53 +7,9 @@
 
 import Foundation
 
-struct Photo {
-    let id: String
-    let size: CGSize
-    let createdAt: Date?
-    let welcomeDescription: String?
-    let thumbImageURL: String
-    let largeImageURL: String
-    let isLiked: Bool
-    
-    init(photoResult: PhotoResult) {
-        id = photoResult.id
-        size = CGSize(width: photoResult.width, height: photoResult.height)
-        createdAt = ISO8601DateFormatter().date(from: photoResult.createdAt)
-        welcomeDescription = photoResult.description
-        thumbImageURL = photoResult.urls.thumb
-        largeImageURL = photoResult.urls.full
-        isLiked = photoResult.likedByUser
-    }
-}
-
-struct PhotoResult: Decodable {
-    let id: String
-    let createdAt: String
-    let width: Int
-    let height: Int
-    let description: String?
-    let likedByUser: Bool
-    let urls: URLsResult
-    
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case createdAt = "created_at"
-        case width
-        case height
-        case description
-        case likedByUser = "liked_by_user"
-        case urls
-    }
-}
-
-struct URLsResult: Decodable {
-    let thumb: String
-    let full: String
-}
-
-struct LikePhotoResult: Decodable {
-    let photo: PhotoResult
+public protocol ImagesListServiceProtocol {
+    func fetchPhotosNextPage()
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Decodable, Error>) -> Void)
 }
 
 final class ImagesListService {
