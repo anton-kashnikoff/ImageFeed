@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-public protocol ProfileViewControllerProtocol: AnyObject {
+protocol ProfileViewControllerProtocol: AnyObject {
     var profilePresenter: ProfilePresenterProtocol? { get set }
     var profileImageView: UIImageView { get set }
     var nameLabel: UILabel { get set }

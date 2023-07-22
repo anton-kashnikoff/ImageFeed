@@ -5,7 +5,7 @@
 //  Created by Антон Кашников on 20.07.2023.
 //
 
-import ImageFeed
+@testable import ImageFeed
 
 final class ProfilePresenterSpy: ProfilePresenterProtocol {
     var profileViewController: ProfileViewControllerProtocol?
