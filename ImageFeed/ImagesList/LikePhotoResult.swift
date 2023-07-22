@@ -5,6 +5,6 @@
 //  Created by Антон Кашников on 21.07.2023.
 //
 
-public struct LikePhotoResult: Decodable {
+struct LikePhotoResult: Decodable {
     let photo: PhotoResult
 }

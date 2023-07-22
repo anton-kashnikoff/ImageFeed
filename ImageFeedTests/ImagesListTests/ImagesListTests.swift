@@ -36,7 +36,7 @@ final class ImagesListTests: XCTestCase {
         let indexPath = IndexPath(row: 0, section: 0)
         
         let imagesListService = ImagesListService()
-        imagesListService.photos = [PhotoSpy()]
+        imagesListService.photos = [Photo(photoResult: PhotoResult(id: "", createdAt: "", width: 1, height: 1, description: "", likedByUser: false, urls: URLsResult(thumb: "", full: "")))]
         imagesListViewController.imagesListService = imagesListService
         
         // when
@@ -54,7 +54,7 @@ final class ImagesListTests: XCTestCase {
         imagesListPresenter.imagesListViewController = imagesListViewController
         
         let imagesListCell = ImagesListCell()
-        let photo = PhotoSpy()
+        let photo = Photo(photoResult: PhotoResult(id: "", createdAt: "", width: 1, height: 1, description: "", likedByUser: false, urls: URLsResult(thumb: "", full: "")))
         
         let imagesListService = ImagesListServiceSpy()
         imagesListService.photos = [photo]

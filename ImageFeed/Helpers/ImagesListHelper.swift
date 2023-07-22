@@ -7,9 +7,9 @@
 
 import UIKit
 
-public protocol ImagesListHelperProtocol {
+protocol ImagesListHelperProtocol {
     var dateFormatter: DateFormatter { get }
-    func calculateHeightOfCell(with photo: PhotoProtocol, tableViewWidth: CGFloat) -> CGFloat
+    func calculateHeightOfCell(with photo: Photo, tableViewWidth: CGFloat) -> CGFloat
     func formatTheDate(_ date: Date) -> String
 }
 
@@ -21,7 +21,7 @@ final class ImagesListHelper: ImagesListHelperProtocol {
         return formatter
     }()
     
-    func calculateHeightOfCell(with photo: PhotoProtocol, tableViewWidth: CGFloat) -> CGFloat {
+    func calculateHeightOfCell(with photo: Photo, tableViewWidth: CGFloat) -> CGFloat {
         let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         let imageViewWidth = tableViewWidth - imageInsets.left - imageInsets.right
         let imageWidth = photo.size.width

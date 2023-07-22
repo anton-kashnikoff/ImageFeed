@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-public protocol ImagesListViewControllerProtocol: AnyObject {
+protocol ImagesListViewControllerProtocol: AnyObject {
     var imagesListPresenter: ImagesListPresenterProtocol? { get set }
     var imagesListService: ImagesListServiceProtocol? { get set }
     func showErrorAlert()

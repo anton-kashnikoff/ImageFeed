@@ -6,7 +6,7 @@
 //
 
 import CoreFoundation
-import ImageFeed
+@testable import ImageFeed
 
 final class ImagesListPresenterSpy: ImagesListPresenterProtocol {
     var imagesListViewController: ImagesListViewControllerProtocol?
@@ -20,15 +20,15 @@ final class ImagesListPresenterSpy: ImagesListPresenterProtocol {
         viewDidLoadCalled = true
     }
     
-    func changeLike(for cell: ImagesListCellProtocol, photo: PhotoProtocol) {
+    func changeLike(for cell: ImagesListCell, photo: Photo) {
         changeLikeCalled = true
     }
     
-    func heightForRow(with photo: PhotoProtocol, tableViewWidth: CGFloat) -> CGFloat {
+    func heightForRow(with photo: Photo, tableViewWidth: CGFloat) -> CGFloat {
         0
     }
     
-    func configCell(_ cell: ImagesListCellProtocol, photo: PhotoProtocol) {
+    func configCell(_ cell: ImagesListCell, photo: Photo) {
         configCellCalled = true
     }
 }

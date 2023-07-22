@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import ImageFeed
+@testable import ImageFeed
 
 final class ImagesListViewControllerSpy: ImagesListViewControllerProtocol {
     var imagesListService: ImagesListServiceProtocol?

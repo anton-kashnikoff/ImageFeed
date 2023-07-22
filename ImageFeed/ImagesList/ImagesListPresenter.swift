@@ -8,14 +8,14 @@
 import UIKit
 import Kingfisher
 
-public protocol ImagesListPresenterProtocol {
+protocol ImagesListPresenterProtocol {
     var imagesListViewController: ImagesListViewControllerProtocol? { get set }
     var imagesListService: ImagesListServiceProtocol? { get }
     var imagesListHelper: ImagesListHelperProtocol? { get }
     func viewDidLoad()
-    func changeLike(for cell: ImagesListCellProtocol, photo: PhotoProtocol)
-    func heightForRow(with photo: PhotoProtocol, tableViewWidth: CGFloat) -> CGFloat
-    func configCell(_ cell: ImagesListCellProtocol, photo: PhotoProtocol)
+    func changeLike(for cell: ImagesListCell, photo: Photo)
+    func heightForRow(with photo: Photo, tableViewWidth: CGFloat) -> CGFloat
+    func configCell(_ cell: ImagesListCell, photo: Photo)
 }
 
 final class ImagesListPresenter: ImagesListPresenterProtocol {
@@ -27,7 +27,7 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
         imagesListService?.fetchPhotosNextPage()
     }
     
-    func changeLike(for cell: ImagesListCellProtocol, photo: PhotoProtocol) {
+    func changeLike(for cell: ImagesListCell, photo: Photo) {
         UIBlockingProgressHUD.show()
         imagesListService?.changeLike(photoId: photo.id, isLike: photo.isLiked) { [weak self] result in
             switch result {
@@ -42,7 +42,7 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
         }
     }
     
-    func heightForRow(with photo: PhotoProtocol, tableViewWidth: CGFloat) -> CGFloat {
+    func heightForRow(with photo: Photo, tableViewWidth: CGFloat) -> CGFloat {
         guard let imagesListHelper else {
             return 0
         }
@@ -50,7 +50,7 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
         return imagesListHelper.calculateHeightOfCell(with: photo, tableViewWidth: tableViewWidth)
     }
     
-    func configCell(_ cell: ImagesListCellProtocol, photo: PhotoProtocol) {
+    func configCell(_ cell: ImagesListCell, photo: Photo) {
         cell.cellImage.kf.indicatorType = .activity
         cell.cellImage.kf.setImage(with: URL(string: photo.thumbImageURL), placeholder: UIImage(named: "stub"))
         

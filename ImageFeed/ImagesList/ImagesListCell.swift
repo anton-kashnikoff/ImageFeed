@@ -8,17 +8,11 @@
 import UIKit
 import Kingfisher
 
-public protocol ImagesListCellProtocol {
-    var cellImage: UIImageView! { get }
-    var dateLabel: UILabel! { get }
-    var likeButton: UIButton! { get }
-}
-
 protocol ImagesListCellDelegate: AnyObject {
     func imageListCellDidTapLike(_ cell: ImagesListCell)
 }
 
-final class ImagesListCell: UITableViewCell & ImagesListCellProtocol {
+final class ImagesListCell: UITableViewCell {
     // MARK: - IBOutlet
     @IBOutlet var cellImage: UIImageView!
     @IBOutlet var dateLabel: UILabel!

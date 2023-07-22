@@ -8,12 +8,12 @@
 import Foundation
 import ImageFeed
 
-final class PhotoSpy: PhotoProtocol {
-    var id = ""
-    var size = CGSize()
-    var createdAt: Date?
-    var welcomeDescription: String?
-    var thumbImageURL = ""
-    var largeImageURL = ""
-    var isLiked = false
-}
+//final class PhotoSpy {
+//    var id = ""
+//    var size = CGSize()
+//    var createdAt: Date?
+//    var welcomeDescription: String?
+//    var thumbImageURL = ""
+//    var largeImageURL = ""
+//    var isLiked = false
+//}

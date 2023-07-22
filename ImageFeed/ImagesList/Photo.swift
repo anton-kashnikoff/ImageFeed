@@ -7,17 +7,7 @@
 
 import Foundation
 
-public protocol PhotoProtocol {
-    var id: String { get }
-    var size: CGSize { get }
-    var createdAt: Date? { get }
-    var welcomeDescription: String? { get }
-    var thumbImageURL: String { get }
-    var largeImageURL: String { get }
-    var isLiked: Bool { get }
-}
-
-struct Photo: PhotoProtocol {
+struct Photo {
     let id: String
     let size: CGSize
     let createdAt: Date?
