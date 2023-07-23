@@ -116,6 +116,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         logoutButton = UIButton.systemButton(with: UIImage(named: "logout_button") ?? UIImage(), target: self, action: #selector(didTapLogoutButton))
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         logoutButton.tintColor = .ypRed
+        logoutButton.accessibilityIdentifier = "logout"
         view.addSubview(logoutButton)
         
         NSLayoutConstraint.activate([
@@ -135,6 +136,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
             
             profilePresenter.profileService?.clean()
             profilePresenter.updateAvatar()
+            profilePresenter.updateProfileDetails()
             
             self.nameLabel = UILabel()
             self.loginNameLabel = UILabel()

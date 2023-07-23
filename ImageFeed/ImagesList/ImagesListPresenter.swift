@@ -10,8 +10,8 @@ import Kingfisher
 
 protocol ImagesListPresenterProtocol {
     var imagesListViewController: ImagesListViewControllerProtocol? { get set }
-    var imagesListService: ImagesListServiceProtocol? { get }
-    var imagesListHelper: ImagesListHelperProtocol? { get }
+    var imagesListService: ImagesListServiceProtocol? { get set }
+    var imagesListHelper: ImagesListHelperProtocol? { get set }
     func viewDidLoad()
     func changeLike(for cell: ImagesListCell, photo: Photo)
     func heightForRow(with photo: Photo, tableViewWidth: CGFloat) -> CGFloat

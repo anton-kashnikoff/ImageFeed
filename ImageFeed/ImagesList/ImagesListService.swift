@@ -15,12 +15,13 @@ protocol ImagesListServiceProtocol {
 
 final class ImagesListService: ImagesListServiceProtocol {
     // MARK: - Private Properties
-    private var lastLoadedPage = 1
+    private var lastLoadedPage: Int?
     private var activeSessionTask: URLSessionTask?
     private var likeActiveSessionTask: URLSessionTask?
     
     // MARK: - Public Properties
     var photos = [Photo]()
+    static let shared = ImagesListService()
     
     // MARK: - Public methods
     func fetchPhotosNextPage() {
@@ -31,7 +32,8 @@ final class ImagesListService: ImagesListServiceProtocol {
 
         activeSessionTask?.cancel()
         
-        let nextPage = lastLoadedPage == 1 ? 1 : lastLoadedPage + 1
+        let nextPage = lastLoadedPage == nil ? 1 : lastLoadedPage! + 1
+        print("nexPage = \(nextPage)")
         let request = makeRequest(with: token, url: URL(string: "https://api.unsplash.com/photos?page=\(nextPage)")!, method: "GET")
         
         loadObject(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
@@ -42,10 +44,13 @@ final class ImagesListService: ImagesListServiceProtocol {
                         let photo = Photo(photoResult: photo)
                         self?.photos.append(photo)
                     }
+                    print("how much photos?")
+                    print(self?.photos.count)
                     NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
                     self?.lastLoadedPage = nextPage
                 }
             case .failure(let error):
+                print("Ашыпка")
                 print(error.localizedDescription)
             }
         }
