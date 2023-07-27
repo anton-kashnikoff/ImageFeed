@@ -7,61 +7,21 @@
 
 import Foundation
 
-struct Photo {
-    let id: String
-    let size: CGSize
-    let createdAt: Date?
-    let welcomeDescription: String?
-    let thumbImageURL: String
-    let largeImageURL: String
-    let isLiked: Bool
-    
-    init(photoResult: PhotoResult) {
-        id = photoResult.id
-        size = CGSize(width: photoResult.width, height: photoResult.height)
-        createdAt = ISO8601DateFormatter().date(from: photoResult.createdAt)
-        welcomeDescription = photoResult.description
-        thumbImageURL = photoResult.urls.thumb
-        largeImageURL = photoResult.urls.full
-        isLiked = photoResult.likedByUser
-    }
+protocol ImagesListServiceProtocol {
+    var photos: [Photo] { get set }
+    func fetchPhotosNextPage()
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<LikePhotoResult, Error>) -> Void)
 }
 
-struct PhotoResult: Decodable {
-    let id: String
-    let createdAt: String
-    let width: Int
-    let height: Int
-    let description: String?
-    let likedByUser: Bool
-    let urls: URLsResult
-    
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case createdAt = "created_at"
-        case width
-        case height
-        case description
-        case likedByUser = "liked_by_user"
-        case urls
-    }
-}
-
-struct URLsResult: Decodable {
-    let thumb: String
-    let full: String
-}
-
-struct LikePhotoResult: Decodable {
-    let photo: PhotoResult
-}
-
-final class ImagesListService {
+final class ImagesListService: ImagesListServiceProtocol {
     // MARK: - Private Properties
-    private(set) var photos = [Photo]()
-    private var lastLoadedPage = 1
+    private var lastLoadedPage: Int?
     private var activeSessionTask: URLSessionTask?
     private var likeActiveSessionTask: URLSessionTask?
+    
+    // MARK: - Public Properties
+    var photos = [Photo]()
+    static let shared = ImagesListService()
     
     // MARK: - Public methods
     func fetchPhotosNextPage() {
@@ -72,7 +32,8 @@ final class ImagesListService {
 
         activeSessionTask?.cancel()
         
-        let nextPage = lastLoadedPage == 1 ? 1 : lastLoadedPage + 1
+        let nextPage = lastLoadedPage == nil ? 1 : lastLoadedPage! + 1
+        print("nexPage = \(nextPage)")
         let request = makeRequest(with: token, url: URL(string: "https://api.unsplash.com/photos?page=\(nextPage)")!, method: "GET")
         
         loadObject(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
@@ -83,10 +44,13 @@ final class ImagesListService {
                         let photo = Photo(photoResult: photo)
                         self?.photos.append(photo)
                     }
+                    print("how much photos?")
+                    print(self?.photos.count)
                     NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
                     self?.lastLoadedPage = nextPage
                 }
             case .failure(let error):
+                print("Ашыпка")
                 print(error.localizedDescription)
             }
         }

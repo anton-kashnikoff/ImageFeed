@@ -8,41 +8,19 @@
 import Foundation
 import WebKit
 
-struct ProfileResult: Codable {
-    let username: String
-    let firstName: String
-    let lastName: String?
-    let bio: String?
-
-    private enum CodingKeys: String, CodingKey {
-        case username
-        case firstName = "first_name"
-        case lastName = "last_name"
-        case bio
-    }
+public protocol ProfileServiceProtocol {
+    var profile: ProfileProtocol? { get }
+    func clean()
 }
 
-struct Profile {
-    let username: String
-    let name: String
-    let loginName: String
-    let bio: String
-
-    init(profileResult: ProfileResult) {
-        self.username = profileResult.username
-        self.name = "\(profileResult.firstName) \(profileResult.lastName ?? "")"
-        self.loginName = "@\(profileResult.username)"
-        self.bio = profileResult.bio ?? ""
-    }
-}
-
-final class ProfileService {
+final class ProfileService: ProfileServiceProtocol {
+    
     // MARK: - Public Properties
     static let shared = ProfileService()
 
     // MARK: - Private Properties
     private var activeSessionTask: URLSessionTask?
-    private(set) var profile: Profile?
+    private(set) var profile: ProfileProtocol?
 
     // MARK: - Public methods
     func clean() {
