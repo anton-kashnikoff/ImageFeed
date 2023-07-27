@@ -24,7 +24,7 @@ final class ImageFeedUITests: XCTestCase {
         let loginTextField = webView.descendants(matching: .textField).element
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 15))
         loginTextField.tap()
-        loginTextField.typeText("antoshkakashnikov1444@gmail.com")
+        loginTextField.typeText("e-mail")
         
         if app.keyboards.element(boundBy: 0).exists {
             if UIDevice.current.userInterfaceIdiom == .pad {
@@ -39,7 +39,7 @@ final class ImageFeedUITests: XCTestCase {
         let passwordTextField = webView.descendants(matching: .secureTextField).element
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
         passwordTextField.tap()
-        passwordTextField.typeText("vacfy1-cyfruv-gonjuC")
+        passwordTextField.typeText("password")
         
         webView.swipeUp()
         

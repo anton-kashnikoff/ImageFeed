@@ -13,6 +13,8 @@ let redirectURIConstant = "urn:ietf:wg:oauth:2.0:oob"
 let accessScopeConstant = "public+read_user+write_likes"
 let defaultBaseURLConstant = URL(string: "https://api.unsplash.com/")!
 let unsplashAuthorizeURLStringConstant = "https://unsplash.com/oauth/authorize"
+let unsplashAuthorizeURLStringPath = "/oauth/authorize/native"
+let unsplashProfileURLString = "https://api.unsplash.com/me"
 
 struct AuthConfiguration {
     static var standard = AuthConfiguration(accessKey: accessKeyConstant, secretKey: secretKeyConstant, redirectURI: redirectURIConstant, accessScope: accessScopeConstant, defaultBaseURL: defaultBaseURLConstant, authURLString: unsplashAuthorizeURLStringConstant)

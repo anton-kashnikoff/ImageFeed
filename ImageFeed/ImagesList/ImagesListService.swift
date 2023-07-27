@@ -33,7 +33,6 @@ final class ImagesListService: ImagesListServiceProtocol {
         activeSessionTask?.cancel()
         
         let nextPage = lastLoadedPage == nil ? 1 : lastLoadedPage! + 1
-        print("nexPage = \(nextPage)")
         let request = makeRequest(with: token, url: URL(string: "https://api.unsplash.com/photos?page=\(nextPage)")!, method: "GET")
         
         loadObject(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
@@ -44,13 +43,10 @@ final class ImagesListService: ImagesListServiceProtocol {
                         let photo = Photo(photoResult: photo)
                         self?.photos.append(photo)
                     }
-                    print("how much photos?")
-                    print(self?.photos.count)
                     NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
                     self?.lastLoadedPage = nextPage
                 }
             case .failure(let error):
-                print("Ашыпка")
                 print(error.localizedDescription)
             }
         }
