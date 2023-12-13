@@ -3,6 +3,12 @@
 Цели приложения:
 * Просмотр бесконечной ленты картинок из Unsplash Editorial.
 * Просмотр краткой информации из профиля пользователя.
+
+<img src="https://github.com/prostokot14/ImageFeed/assets/86567361/c0b035d2-e57f-42c4-b063-9f2111538a84" width="250">
+<img src="https://github.com/prostokot14/ImageFeed/assets/86567361/8d1c4944-f236-4a22-96b6-57792ff4e851" width="250">
+<img src="https://github.com/prostokot14/ImageFeed/assets/86567361/5f592a0d-c800-4ef1-9a88-264d223634e5" width="250">
+<img src="https://github.com/prostokot14/ImageFeed/assets/86567361/587ba369-b4c8-4e44-9469-0da65509212c" width="250">
+
 ## Краткое описание приложения
 * В приложении обязательна авторизация через OAuth Unsplash.
 * Главный экран состоит из ленты с изображениями. Пользователь может просматривать ее, добавлять и удалять изображения из избранного.
