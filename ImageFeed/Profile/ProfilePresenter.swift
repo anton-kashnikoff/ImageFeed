@@ -11,6 +11,7 @@ import Kingfisher
 protocol ProfilePresenterProtocol {
     var profileViewController: ProfileViewControllerProtocol? { get set }
     var profileService: ProfileServiceProtocol? { get }
+    
     func updateAvatar()
     func updateProfileDetails()
     func switchToSplashViewController()
@@ -41,7 +42,9 @@ final class ProfilePresenter: ProfilePresenterProtocol {
     }
     
     func switchToSplashViewController() {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first
+        else {
             fatalError("Invalid Configuration")
         }
         

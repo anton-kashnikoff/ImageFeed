@@ -19,9 +19,8 @@ final class OAuth2Service {
     func fetchAuthToken(_ code: String, handler: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
         // если коды не совпадают, то делаем новый запрос
-        if lastCode == code {
-            return
-        }
+        if lastCode == code { return }
+
         activeSessionTask?.cancel() // отменяем старый запрос, но если activeSessionTask == nil, то ничего не будет выполнено, и мы просто пройдём дальше вниз
         lastCode = code // запоминаем код, использованный в запросе
 
@@ -31,7 +30,7 @@ final class OAuth2Service {
             switch result {
             case .success(let tokenResponseBody):
                 let authToken = tokenResponseBody.accessToken
-                OAuth2TokenStorage().authToken = authToken
+                OAuth2TokenStorage.shared.authToken = authToken
                 handler(.success(authToken))
             case .failure(let error):
                 handler(.failure(error))

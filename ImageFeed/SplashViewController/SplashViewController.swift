@@ -32,7 +32,12 @@ final class SplashViewController: UIViewController {
             switchToTabBarController()
         } else {
             UIBlockingProgressHUD.dismiss()
-            guard let authViewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
+            guard let authViewController = UIStoryboard(
+                name: "Main",
+                bundle: .main
+            ).instantiateViewController(
+                withIdentifier: "AuthViewController"
+            ) as? AuthViewController else {
                 assertionFailure("Failed to show Authentication Screen")
                 return
             }
@@ -45,12 +50,19 @@ final class SplashViewController: UIViewController {
 
     // MARK: - Private methods
     private func switchToTabBarController() {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first
+        else {
             fatalError("Invalid Configuration")
         }
 
-        let tabBarViewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "TabBarViewController")
-        window.rootViewController = tabBarViewController
+        window.rootViewController = UIStoryboard(
+            name: "Main",
+            bundle: .main
+        )
+        .instantiateViewController(
+            withIdentifier: "TabBarViewController"
+        )
     }
 
     private func fetchProfile(with token: String) {

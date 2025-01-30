@@ -5,11 +5,11 @@
 //  Created by Антон Кашников on 15.06.2023.
 //
 
-import Foundation
 import WebKit
 
 public protocol ProfileServiceProtocol {
     var profile: ProfileProtocol? { get }
+
     func clean()
 }
 

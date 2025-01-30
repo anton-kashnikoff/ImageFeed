@@ -22,13 +22,12 @@ final class ProfileImageService {
     func fetchProfileImageURL(username: String, completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
 
-        guard let token = OAuth2TokenStorage().authToken else {
+        guard let token = OAuth2TokenStorage.shared.authToken else {
             return
         }
 
-        if lastToken == token {
-            return
-        }
+        if lastToken == token { return }
+
         activeSessionTask?.cancel()
         lastToken = token
 

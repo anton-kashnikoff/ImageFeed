@@ -30,7 +30,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.text = "Екатерина Новикова"
         nameLabel.textColor = .ypWhite
-        nameLabel.font = UIFont.systemFont(ofSize: 23, weight: UIFont.Weight(700))
+        nameLabel.font = .systemFont(ofSize: 23, weight: UIFont.Weight(700))
         return nameLabel
     }()
     
@@ -39,7 +39,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
         loginNameLabel.text = "@ekaterina_nov"
         loginNameLabel.textColor = .ypGray
-        loginNameLabel.font = UIFont.systemFont(ofSize: 13)
+        loginNameLabel.font = .systemFont(ofSize: 13)
         return loginNameLabel
     }()
     
@@ -48,12 +48,17 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.text = "Hello, world!"
         descriptionLabel.textColor = .ypWhite
-        descriptionLabel.font = UIFont.systemFont(ofSize: 13)
+        descriptionLabel.font = .systemFont(ofSize: 13)
         return descriptionLabel
     }()
     
     private lazy var logoutButton: UIButton = {
-        let logoutButton = UIButton.systemButton(with: UIImage.logoutButton ?? UIImage(), target: self, action: #selector(didTapLogoutButton))
+        let logoutButton = UIButton.systemButton(
+            with: UIImage.logoutButton ?? UIImage(),
+            target: self,
+            action: #selector(didTapLogoutButton)
+        )
+
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         logoutButton.tintColor = .ypRed
         logoutButton.accessibilityIdentifier = "logout"
@@ -82,10 +87,15 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         configureLoginNameLabel()
         configureDescriptionLabel()
 
-        profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
-            self?.profilePresenter?.updateAvatar()
-            self?.profilePresenter?.updateProfileDetails()
-        }
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                self?.profilePresenter?.updateAvatar()
+                self?.profilePresenter?.updateProfileDetails()
+            }
 
         profilePresenter?.updateAvatar()
         profilePresenter?.updateProfileDetails()
@@ -100,7 +110,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
             profileImageView.widthAnchor.constraint(equalToConstant: 70),
             profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
             profileImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            profileImageView.trailingAnchor.constraint(lessThanOrEqualTo: logoutButton.leadingAnchor, constant: 0)
+            profileImageView.trailingAnchor.constraint(lessThanOrEqualTo: logoutButton.leadingAnchor)
         ])
     }
     
@@ -145,24 +155,33 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         ])
     }
     
-    @objc private func didTapLogoutButton() {
-        let alertController = UIAlertController(title: "Вы уверены, что хотите выйти?", message: "Чтобы продолжить смотреть фотографии, нужно будет заново авторизоваться.", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Да", style: .default) { [weak self] _ in
-            guard let self, let profilePresenter else {
-                return
+    @objc
+    private func didTapLogoutButton() {
+        let alertController = UIAlertController(
+            title: "Вы уверены, что хотите выйти?",
+            message: "Чтобы продолжить смотреть фотографии, нужно будет заново авторизоваться.",
+            preferredStyle: .alert
+        )
+
+        alertController.addAction(
+            UIAlertAction(title: "Да", style: .default) { [weak self] _ in
+                guard let self, let profilePresenter else {
+                    return
+                }
+                
+                profilePresenter.profileService?.clean()
+                profilePresenter.updateAvatar()
+                profilePresenter.updateProfileDetails()
+                
+                self.nameLabel.text = nil
+                self.loginNameLabel.text = nil
+                self.descriptionLabel.text = nil
+                self.logoutButton.isHidden = true
+                
+                profilePresenter.switchToSplashViewController()
             }
-            
-            profilePresenter.profileService?.clean()
-            profilePresenter.updateAvatar()
-            profilePresenter.updateProfileDetails()
-            
-            self.nameLabel.text = nil
-            self.loginNameLabel.text = nil
-            self.descriptionLabel.text = nil
-            self.logoutButton.isHidden = true
-            
-            profilePresenter.switchToSplashViewController()
-        })
+        )
+
         alertController.addAction(UIAlertAction(title: "Нет", style: .cancel))
         present(alertController, animated: true)
     }

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import WebKit
+@preconcurrency import WebKit
 
 public protocol WebViewViewControllerProtocol: AnyObject {
     var presenter: WebViewPresenterProtocol? { get set }
@@ -75,6 +75,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
         if let url = navigationAction.request.url {
             return presenter?.code(from: url)
         }
+
         return nil
     }
 }

@@ -15,8 +15,7 @@ extension URLSession {
     }
 
     func objectTask<T: Decodable>(for request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) -> URLSessionTask {
-        let fulfillCompletionOnMainThread: (Result<T, Error>) -> Void = {
-            result in
+        let fulfillCompletionOnMainThread: (Result<T, Error>) -> Void = { result in
             DispatchQueue.main.async {
                 completion(result)
             }

@@ -17,7 +17,14 @@ let unsplashAuthorizeURLStringPath = "/oauth/authorize/native"
 let unsplashProfileURLString = "https://api.unsplash.com/me"
 
 struct AuthConfiguration {
-    static var standard = AuthConfiguration(accessKey: accessKeyConstant, secretKey: secretKeyConstant, redirectURI: redirectURIConstant, accessScope: accessScopeConstant, defaultBaseURL: defaultBaseURLConstant, authURLString: unsplashAuthorizeURLStringConstant)
+    static var standard = AuthConfiguration(
+        accessKey: accessKeyConstant,
+        secretKey: secretKeyConstant,
+        redirectURI: redirectURIConstant,
+        accessScope: accessScopeConstant,
+        defaultBaseURL: defaultBaseURLConstant,
+        authURLString: unsplashAuthorizeURLStringConstant
+    )
     
     let accessKey: String
     let secretKey: String
