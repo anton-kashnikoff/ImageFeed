@@ -121,7 +121,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                 switch result {
                 case .success(let token):
                     self?.fetchProfile(with: token)
-                case .failure:
+                case .failure(_):
                     UIBlockingProgressHUD.dismiss()
                     self?.showAlert(title: "Что-то пошло не так.", message: "Не удалось получить токен авторизации")
                     break
