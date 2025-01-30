@@ -89,7 +89,7 @@ final class SplashViewController: UIViewController {
             showLoadingCircle = false
         } else {
             logoImageView.translatesAutoresizingMaskIntoConstraints = false
-            logoImageView.image = UIImage(named: "logo")
+            logoImageView.image = UIImage.logo
             view.addSubview(logoImageView)
             
             NSLayoutConstraint.activate([

@@ -8,19 +8,11 @@
 import UIKit
 
 protocol ImagesListHelperProtocol {
-    var dateFormatter: DateFormatter { get }
     func calculateHeightOfCell(with photo: Photo, tableViewWidth: CGFloat) -> CGFloat
     func formatTheDate(_ date: Date) -> String
 }
 
 final class ImagesListHelper: ImagesListHelperProtocol {
-    lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd MMMM yyyy"
-        formatter.locale = Locale(identifier: "ru_RU")
-        return formatter
-    }()
-    
     func calculateHeightOfCell(with photo: Photo, tableViewWidth: CGFloat) -> CGFloat {
         let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         let imageViewWidth = tableViewWidth - imageInsets.left - imageInsets.right
@@ -32,6 +24,6 @@ final class ImagesListHelper: ImagesListHelperProtocol {
     }
     
     func formatTheDate(_ date: Date) -> String {
-        dateFormatter.string(from: date)
+        Date().getDateFormatter().string(from: date)
     }
 }

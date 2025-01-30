@@ -18,11 +18,47 @@ protocol ProfileViewControllerProtocol: AnyObject {
 
 final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
     // MARK: - Visual Components
-    var profileImageView = UIImageView()
-    var nameLabel = UILabel()
-    var loginNameLabel = UILabel()
-    var descriptionLabel = UILabel()
-    private var logoutButton = UIButton()
+    lazy var profileImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage.placeholder
+        return imageView
+    }()
+    
+    lazy var nameLabel: UILabel = {
+        let nameLabel = UILabel()
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.text = "Екатерина Новикова"
+        nameLabel.textColor = .ypWhite
+        nameLabel.font = UIFont.systemFont(ofSize: 23, weight: UIFont.Weight(700))
+        return nameLabel
+    }()
+    
+    lazy var loginNameLabel: UILabel = {
+        let loginNameLabel = UILabel()
+        loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        loginNameLabel.text = "@ekaterina_nov"
+        loginNameLabel.textColor = .ypGray
+        loginNameLabel.font = UIFont.systemFont(ofSize: 13)
+        return loginNameLabel
+    }()
+    
+    lazy var descriptionLabel: UILabel = {
+        let descriptionLabel = UILabel()
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        descriptionLabel.text = "Hello, world!"
+        descriptionLabel.textColor = .ypWhite
+        descriptionLabel.font = UIFont.systemFont(ofSize: 13)
+        return descriptionLabel
+    }()
+    
+    private lazy var logoutButton: UIButton = {
+        let logoutButton = UIButton.systemButton(with: UIImage.logoutButton ?? UIImage(), target: self, action: #selector(didTapLogoutButton))
+        logoutButton.translatesAutoresizingMaskIntoConstraints = false
+        logoutButton.tintColor = .ypRed
+        logoutButton.accessibilityIdentifier = "logout"
+        return logoutButton
+    }()
 
     // MARK: - Private Properties
     private var profileImageServiceObserver: NSObjectProtocol?
@@ -57,8 +93,6 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
 
     // MARK: - Private Methods
     private func configureProfileImageView() {
-        profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        profileImageView.image = UIImage(named: "placeholder")
         view.addSubview(profileImageView)
         
         NSLayoutConstraint.activate([
@@ -71,10 +105,6 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
     }
     
     private func configureNameLabel() {
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.text = "Екатерина Новикова"
-        nameLabel.textColor = .ypWhite
-        nameLabel.font = UIFont.systemFont(ofSize: 23, weight: UIFont.Weight(700))
         view.addSubview(nameLabel)
         
         NSLayoutConstraint.activate([
@@ -85,10 +115,6 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
     }
     
     private func configureLoginNameLabel() {
-        loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        loginNameLabel.text = "@ekaterina_nov"
-        loginNameLabel.textColor = .ypGray
-        loginNameLabel.font = UIFont.systemFont(ofSize: 13)
         view.addSubview(loginNameLabel)
         
         NSLayoutConstraint.activate([
@@ -99,10 +125,6 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
     }
     
     private func configureDescriptionLabel() {
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.text = "Hello, world!"
-        descriptionLabel.textColor = .ypWhite
-        descriptionLabel.font = UIFont.systemFont(ofSize: 13)
         view.addSubview(descriptionLabel)
         
         NSLayoutConstraint.activate([
@@ -113,10 +135,6 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
     }
     
     private func configureLogoutButton() {
-        logoutButton = UIButton.systemButton(with: UIImage(named: "logout_button") ?? UIImage(), target: self, action: #selector(didTapLogoutButton))
-        logoutButton.translatesAutoresizingMaskIntoConstraints = false
-        logoutButton.tintColor = .ypRed
-        logoutButton.accessibilityIdentifier = "logout"
         view.addSubview(logoutButton)
         
         NSLayoutConstraint.activate([
@@ -138,10 +156,10 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
             profilePresenter.updateAvatar()
             profilePresenter.updateProfileDetails()
             
-            self.nameLabel = UILabel()
-            self.loginNameLabel = UILabel()
-            self.descriptionLabel = UILabel()
-            self.logoutButton = UIButton()
+            self.nameLabel.text = nil
+            self.loginNameLabel.text = nil
+            self.descriptionLabel.text = nil
+            self.logoutButton.isHidden = true
             
             profilePresenter.switchToSplashViewController()
         })

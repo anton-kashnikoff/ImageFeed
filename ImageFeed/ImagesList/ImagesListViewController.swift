@@ -49,13 +49,11 @@ class ImagesListViewController: UIViewController & ImagesListViewControllerProto
         imagesListPresenter = ImagesListPresenter()
         imagesListPresenter?.imagesListService = ImagesListService.shared
         imagesListPresenter?.imagesListHelper = ImagesListHelper()
-        print("I'm here")
         imagesListPresenter?.viewDidLoad()
         
         imagesListServiceObserver = NotificationCenter.default.addObserver(forName: ImagesListService.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
             self?.updateTableViewAnimated()
         })
-        print("finish vdl")
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
     
@@ -70,7 +68,6 @@ class ImagesListViewController: UIViewController & ImagesListViewControllerProto
     }
     
     func updateTableViewAnimated() {
-        print("updateTVAnimated")
         tableView.performBatchUpdates {
             guard let photosCount = imagesListService?.photos.count else {
                 return
@@ -123,12 +120,9 @@ extension ImagesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let imagesListService else {
-            print("А нет презентера")
             return
         }
-        print("Всё норм")
         if indexPath.row == imagesListService.photos.count - 1 {
-            print("Я в ifе")
             imagesListService.fetchPhotosNextPage()
         }
     }

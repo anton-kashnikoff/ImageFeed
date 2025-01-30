@@ -63,7 +63,7 @@ final class ProfileService: ProfileServiceProtocol {
     }
 
     private func makeRequest(with token: String) -> URLRequest {
-        var request = URLRequest(url: URL(string: "https://api.unsplash.com/me")!)
+        var request = URLRequest(url: URL(string: unsplashProfileURLString)!)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
     }
