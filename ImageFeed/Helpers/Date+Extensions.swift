@@ -11,7 +11,7 @@ extension Date {
     func getDateFormatter() -> DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd MMMM yyyy"
-        formatter.locale = Locale(identifier: "ru_RU")
+        formatter.locale = .current
         return formatter
     }
 }

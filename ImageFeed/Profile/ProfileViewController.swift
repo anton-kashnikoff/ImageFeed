@@ -28,7 +28,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
     lazy var nameLabel: UILabel = {
         let nameLabel = UILabel()
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.text = "Екатерина Новикова"
+        nameLabel.text = "Ekaterina Novikova"
         nameLabel.textColor = .ypWhite
         nameLabel.font = .systemFont(ofSize: 23, weight: UIFont.Weight(700))
         return nameLabel
@@ -157,14 +157,31 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
     
     @objc
     private func didTapLogoutButton() {
+        let title: String
+        let message: String
+        
+        if #available(iOS 15, *) {
+            title = String(localized: "Are you sure you want to logout?", comment: "Alert title on the Profile screen.")
+            message = String(localized: "To continue viewing photos, you will need to log in again.", comment: "Alert message on the Profile screen.")
+        } else {
+            title = NSLocalizedString("Are you sure you want to logout?", comment: "Alert title on the Profile screen.")
+            message = NSLocalizedString("To continue viewing photos, you will need to log in again.", comment: "Alert message on the Profile screen.")
+        }
+        
         let alertController = UIAlertController(
-            title: "Вы уверены, что хотите выйти?",
-            message: "Чтобы продолжить смотреть фотографии, нужно будет заново авторизоваться.",
+            title: title,
+            message: message,
             preferredStyle: .alert
         )
+        
+        let yesTitle = if #available(iOS 15, *) {
+            String(localized: "Yes", comment: "Alert button title to agree.")
+        } else {
+            NSLocalizedString("Yes", comment: "Alert button title to agree.")
+        }
 
         alertController.addAction(
-            UIAlertAction(title: "Да", style: .default) { [weak self] _ in
+            UIAlertAction(title: yesTitle, style: .default) { [weak self] _ in
                 guard let self, let profilePresenter else {
                     return
                 }
@@ -181,8 +198,14 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
                 profilePresenter.switchToSplashViewController()
             }
         )
+        
+        let noTitle = if #available(iOS 15, *) {
+            String(localized: "No", comment: "Alert button title to refuse.")
+        } else {
+            NSLocalizedString("No", comment: "Alert button title to refuse.")
+        }
 
-        alertController.addAction(UIAlertAction(title: "Нет", style: .cancel))
+        alertController.addAction(UIAlertAction(title: noTitle, style: .cancel))
         present(alertController, animated: true)
     }
 }

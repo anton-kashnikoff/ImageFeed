@@ -18,11 +18,14 @@ final class OAuth2Service {
     // MARK: - Public methods
     func fetchAuthToken(_ code: String, handler: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
-        // если коды не совпадают, то делаем новый запрос
+        // if the codes do not match, then make a new request
         if lastCode == code { return }
 
-        activeSessionTask?.cancel() // отменяем старый запрос, но если activeSessionTask == nil, то ничего не будет выполнено, и мы просто пройдём дальше вниз
-        lastCode = code // запоминаем код, использованный в запросе
+        // cancel the old request, but if activeSessionTask == nil, then nothing will be executed, and we will just go further down
+        activeSessionTask?.cancel()
+        
+        // storing the code used in the request
+        lastCode = code
 
         let request = makeRequest(code: code)
 

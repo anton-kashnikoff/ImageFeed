@@ -77,19 +77,49 @@ final class SplashViewController: UIViewController {
                     case .success(_):
                         break
                     case .failure(_):
-                        self?.showAlert(title: "Что-то пошло не так.", message: "Не удалось загрузить фото профиля")
+                        let title: String
+                        let message: String
+                        
+                        if #available(iOS 15, *) {
+                            title = String(localized: "Something went wrong", comment: "Alert title when there's an error.")
+                            message = String(localized: "Could not load profile image", comment: "Alert message on the Splash screen.")
+                        } else {
+                            title = NSLocalizedString("Something went wrong", comment: "Alert title when there's an error.")
+                            message = NSLocalizedString("Could not load profile image", comment: "Alert message on the Splash screen.")
+                        }
+                        
+                        self?.showAlert(title: title, message: message)
                     }
                 }
             case .failure(_):
                 UIBlockingProgressHUD.dismiss()
-                self?.showAlert(title: "Что-то пошло не так.", message: "Не удалось войти в систему")
+                
+                let title: String
+                let message: String
+                
+                if #available(iOS 15, *) {
+                    title = String(localized: "Something went wrong", comment: "Alert title when there's an error.")
+                    message = String(localized: "Could not sign in", comment: "Alert message on the Splash screen.")
+                } else {
+                    title = NSLocalizedString("Something went wrong", comment: "Alert title when there's an error.")
+                    message = NSLocalizedString("Could not sign in", comment: "Alert message on the Splash screen.")
+                }
+                
+                self?.showAlert(title: title, message: message)
             }
         }
     }
 
     private func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+        
+        let title = if #available(iOS 15, *) {
+            String(localized: "OK", comment: "Alert button title.")
+        } else {
+            NSLocalizedString("OK", comment: "Alert button title.")
+        }
+        
+        alertController.addAction(UIAlertAction(title: title, style: .default))
         present(alertController, animated: true)
     }
 
@@ -123,7 +153,19 @@ extension SplashViewController: AuthViewControllerDelegate {
                     self?.fetchProfile(with: token)
                 case .failure(_):
                     UIBlockingProgressHUD.dismiss()
-                    self?.showAlert(title: "Что-то пошло не так.", message: "Не удалось получить токен авторизации")
+                    
+                    let title: String
+                    let message: String
+                    
+                    if #available(iOS 15, *) {
+                        title = String(localized: "Something went wrong", comment: "Alert title when there's an error.")
+                        message = String(localized: "Could not get authorization token", comment: "Alert message on the Splash screen.")
+                    } else {
+                        title = NSLocalizedString("Something went wrong", comment: "Alert title when there's an error.")
+                        message = NSLocalizedString("Could not get authorization token", comment: "Alert message on the Splash screen.")
+                    }
+                    
+                    self?.showAlert(title: title, message: message)
                     break
                 }
             }

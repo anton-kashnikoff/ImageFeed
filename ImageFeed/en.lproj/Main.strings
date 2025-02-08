@@ -1,0 +1,15 @@
+
+/* Class = "UIViewController"; title = "Image List"; ObjectID = "BYZ-38-t0r"; */
+"BYZ-38-t0r.title" = "Image List";
+
+/* Class = "UIButton"; configuration.title = "Sign In"; ObjectID = "Bjt-br-p6G"; */
+"Bjt-br-p6G.configuration.title" = "Sign In";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Bjt-br-p6G"; */
+"Bjt-br-p6G.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "August 27, 2022"; ObjectID = "NMD-Gz-1d1"; */
+"NMD-Gz-1d1.text" = "August 27, 2022";
+
+/* Class = "UIViewController"; title = "Single Image"; ObjectID = "NPi-bn-mYf"; */
+"NPi-bn-mYf.title" = "Single Image";

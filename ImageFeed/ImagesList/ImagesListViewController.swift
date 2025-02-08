@@ -80,8 +80,19 @@ class ImagesListViewController: UIViewController & ImagesListViewControllerProto
     }
     
     func showErrorAlert() {
-        let alertController = UIAlertController(title: "Что-то пошло не так.", message: nil, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .cancel))
+        let title: String
+        let buttonTitle: String
+        
+        if #available(iOS 15, *) {
+            title = String(localized: "Something went wrong", comment: "Alert title when there's an error.")
+            buttonTitle = String(localized: "OK", comment: "Alert button title.")
+        } else {
+            title = NSLocalizedString("Something went wrong", comment: "Alert title when there's an error.")
+            buttonTitle = NSLocalizedString("OK", comment: "Alert button title.")
+        }
+        
+        let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: buttonTitle, style: .cancel))
         present(alertController, animated: true)
     }
 }

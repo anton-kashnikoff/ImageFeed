@@ -15,6 +15,8 @@
 		CB2113792A45B27600A786FD /* URLSession+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2113782A45B27600A786FD /* URLSession+Extensions.swift */; };
 		CB4DF1372A39FCA80034F665 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4DF1362A39FCA80034F665 /* UIBlockingProgressHUD.swift */; };
 		CB601C572A487610006C6F83 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CB601C562A487610006C6F83 /* Kingfisher */; };
+		CB6B56CA2D5814A700495848 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CB6B56C92D5814A700495848 /* Localizable.xcstrings */; };
+		CB6B57EB2D581D6A00495848 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB6B57EA2D581D6A00495848 /* Preview Assets.xcassets */; };
 		CB866D592A0A63E900B82387 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB866D582A0A63E900B82387 /* UIColor+Extensions.swift */; };
 		CB8BB95C2A6EB600004D2CD7 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8BB95B2A6EB600004D2CD7 /* Date+Extensions.swift */; };
 		CB8BB95E2A6EB77E004D2CD7 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8BB95D2A6EB77E004D2CD7 /* UIImage+Extensions.swift */; };
@@ -86,6 +88,11 @@
 		CB1C6DBA2A0D240D000DE952 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		CB2113782A45B27600A786FD /* URLSession+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extensions.swift"; sourceTree = "<group>"; };
 		CB4DF1362A39FCA80034F665 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
+		CB6B56C12D580BBD00495848 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
+		CB6B56C52D580D1B00495848 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		CB6B56C82D58101400495848 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
+		CB6B56C92D5814A700495848 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		CB6B57EA2D581D6A00495848 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		CB866D582A0A63E900B82387 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		CB8BB95B2A6EB600004D2CD7 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		CB8BB95D2A6EB77E004D2CD7 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
@@ -185,6 +192,14 @@
 				CB9A8E7E2A6AAB810074C588 /* PhotoResult.swift */,
 			);
 			path = ImagesList;
+			sourceTree = "<group>";
+		};
+		CB6B575B2D581D2B00495848 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				CB6B57EA2D581D6A00495848 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		CB866D572A0A63C600B82387 /* Helpers */ = {
@@ -306,6 +321,7 @@
 		CBBC24DF2A07F4AE00B056C5 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				CB6B575B2D581D2B00495848 /* Preview Content */,
 				CBBC24E02A07F4AE00B056C5 /* AppDelegate.swift */,
 				CBBC24E22A07F4AE00B056C5 /* SceneDelegate.swift */,
 				CB9A8E8B2A6AC1CB0074C588 /* TabBarController */,
@@ -320,6 +336,7 @@
 				CBBC24E92A07F4B400B056C5 /* Assets.xcassets */,
 				CBBC24EB2A07F4B400B056C5 /* LaunchScreen.storyboard */,
 				CBBC24EE2A07F4B400B056C5 /* Info.plist */,
+				CB6B56C92D5814A700495848 /* Localizable.xcstrings */,
 			);
 			path = ImageFeed;
 			sourceTree = "<group>";
@@ -438,11 +455,13 @@
 			};
 			buildConfigurationList = CBBC24D82A07F4AE00B056C5 /* Build configuration list for PBXProject "ImageFeed" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ru;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ru,
+				fr,
 			);
 			mainGroup = CBBC24D42A07F4AE00B056C5;
 			packageReferences = (
@@ -475,6 +494,8 @@
 			files = (
 				CBBC24ED2A07F4B400B056C5 /* LaunchScreen.storyboard in Resources */,
 				CBBC24EA2A07F4B400B056C5 /* Assets.xcassets in Resources */,
+				CB6B57EB2D581D6A00495848 /* Preview Assets.xcassets in Resources */,
+				CB6B56CA2D5814A700495848 /* Localizable.xcstrings in Resources */,
 				CBBC24E82A07F4AE00B056C5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -577,6 +598,9 @@
 			isa = PBXVariantGroup;
 			children = (
 				CBBC24E72A07F4AE00B056C5 /* Base */,
+				CB6B56C12D580BBD00495848 /* ru */,
+				CB6B56C52D580D1B00495848 /* en */,
+				CB6B56C82D58101400495848 /* fr */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -638,6 +662,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -691,6 +716,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -699,6 +725,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -745,6 +772,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -757,6 +785,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "ImageFeed/Preview\\ Content";
 				DEVELOPMENT_TEAM = BBQWCP2Q36;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ImageFeed/Info.plist;
@@ -790,6 +819,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "ImageFeed/Preview\\ Content";
 				DEVELOPMENT_TEAM = BBQWCP2Q36;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ImageFeed/Info.plist;

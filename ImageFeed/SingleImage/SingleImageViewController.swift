@@ -60,11 +60,37 @@ final class SingleImageViewController: UIViewController {
                 self.image = imageResult.image
                 self.updateMinZoomScale(for: imageResult.image.size)
             case .failure(_):
-                let alertController = UIAlertController(title: "Что-то пошло не так.", message: "Попробовать ещё раз?", preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "Нет", style: .cancel))
-                alertController.addAction(UIAlertAction(title: "Повторить", style: .default) { [weak self] _ in
+                let title: String
+                let message: String
+                
+                if #available(iOS 15, *) {
+                    title = String(localized: "Something went wrong", comment: "Alert title when there's an error.")
+                    message = String(localized: "Try again?", comment: "Alert message to try again.")
+                } else {
+                    title = NSLocalizedString("Something went wrong", comment: "Alert title when there's an error.")
+                    message = NSLocalizedString("Try again?", comment: "Alert message to try again.")
+                }
+                
+                let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                
+                let noTitle = if #available(iOS 15, *) {
+                    String(localized: "No", comment: "Alert button title to refuse.")
+                } else {
+                    NSLocalizedString("No", comment: "Alert button title to refuse.")
+                }
+                
+                alertController.addAction(UIAlertAction(title: noTitle, style: .cancel))
+                
+                let tryAgainTitle = if #available(iOS 15, *) {
+                    String(localized: "Try again", comment: "Alert button title to try again.")
+                } else {
+                    NSLocalizedString("Try again", comment: "Alert button title to try again.")
+                }
+                
+                alertController.addAction(UIAlertAction(title: tryAgainTitle, style: .default) { [weak self] _ in
                     self?.setImage()
                 })
+                
                 present(alertController, animated: true)
             }
         }
