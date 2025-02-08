@@ -24,6 +24,14 @@ final class ImagesListHelper: ImagesListHelperProtocol {
     }
     
     func formatTheDate(_ date: Date) -> String {
-        Date().getDateFormatter().string(from: date)
+        if #available(iOS 15, *) {
+            return date.formatted(date: .long, time: .omitted)
+        } else {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .long
+            formatter.timeStyle = .none
+            formatter.locale = .current
+            return formatter.string(from: date)
+        }
     }
 }
