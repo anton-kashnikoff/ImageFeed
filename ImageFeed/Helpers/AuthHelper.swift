@@ -14,16 +14,8 @@ protocol AuthHelperProtocol {
 
 class AuthHelper: AuthHelperProtocol {
     let configuration: AuthConfiguration
-    
-    init(configuration: AuthConfiguration = .standard) {
-        self.configuration = configuration
-    }
-    
-    func authRequest() -> URLRequest {
-        URLRequest(url: authURL())
-    }
-    
-    func authURL() -> URL {
+
+    var authURL: URL {
         var urlComponents = URLComponents(string: configuration.authURLString)!
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: configuration.accessKey),
@@ -33,6 +25,14 @@ class AuthHelper: AuthHelperProtocol {
         ]
         
         return urlComponents.url!
+    }
+    
+    init(configuration: AuthConfiguration = .standard) {
+        self.configuration = configuration
+    }
+    
+    func authRequest() -> URLRequest {
+        URLRequest(url: authURL)
     }
     
     func code(from url: URL) -> String? {
