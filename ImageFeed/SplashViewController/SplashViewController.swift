@@ -124,14 +124,14 @@ final class SplashViewController: UIViewController {
     }
 
     private func makeViewController() {
-        view.backgroundColor = .ypBlack
+        view.backgroundColor = UIColor(resource: .ypBlack)
         
         if showLoadingCircle {
             UIBlockingProgressHUD.show()
             showLoadingCircle = false
         } else {
             logoImageView.translatesAutoresizingMaskIntoConstraints = false
-            logoImageView.image = UIImage.logo
+            logoImageView.image = UIImage(resource: .logo)
             view.addSubview(logoImageView)
             
             NSLayoutConstraint.activate([

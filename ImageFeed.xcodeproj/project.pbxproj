@@ -17,8 +17,6 @@
 		CB601C572A487610006C6F83 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CB601C562A487610006C6F83 /* Kingfisher */; };
 		CB6B56CA2D5814A700495848 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CB6B56C92D5814A700495848 /* Localizable.xcstrings */; };
 		CB6B57EB2D581D6A00495848 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB6B57EA2D581D6A00495848 /* Preview Assets.xcassets */; };
-		CB866D592A0A63E900B82387 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB866D582A0A63E900B82387 /* UIColor+Extensions.swift */; };
-		CB8BB95E2A6EB77E004D2CD7 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8BB95D2A6EB77E004D2CD7 /* UIImage+Extensions.swift */; };
 		CB92C4F72A2B7C22001E0145 /* OAuth2TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB92C4F62A2B7C22001E0145 /* OAuth2TokenStorage.swift */; };
 		CB9361E82A4C7E5A00BE713E /* ImagesListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9361E72A4C7E5A00BE713E /* ImagesListService.swift */; };
 		CB9A8E7D2A6AAB620074C588 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9A8E7C2A6AAB620074C588 /* Photo.swift */; };
@@ -92,8 +90,6 @@
 		CB6B56C82D58101400495848 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
 		CB6B56C92D5814A700495848 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		CB6B57EA2D581D6A00495848 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		CB866D582A0A63E900B82387 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
-		CB8BB95D2A6EB77E004D2CD7 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		CB92C4F62A2B7C22001E0145 /* OAuth2TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2TokenStorage.swift; sourceTree = "<group>"; };
 		CB9361E72A4C7E5A00BE713E /* ImagesListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListService.swift; sourceTree = "<group>"; };
 		CB9A8E7C2A6AAB620074C588 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
@@ -204,11 +200,9 @@
 			isa = PBXGroup;
 			children = (
 				CB4DF1362A39FCA80034F665 /* UIBlockingProgressHUD.swift */,
-				CB866D582A0A63E900B82387 /* UIColor+Extensions.swift */,
 				CB2113782A45B27600A786FD /* URLSession+Extensions.swift */,
 				CBF179732A693E8E00B7F671 /* AuthHelper.swift */,
 				CB9A8E842A6AB8C90074C588 /* ImagesListHelper.swift */,
-				CB8BB95D2A6EB77E004D2CD7 /* UIImage+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -537,7 +531,6 @@
 				CB2113792A45B27600A786FD /* URLSession+Extensions.swift in Sources */,
 				CBC0D9EF2A2A235B0055CB6D /* OAuthTokenResponseBody.swift in Sources */,
 				CB17455A2A49B74200F72C42 /* TabBarController.swift in Sources */,
-				CB8BB95E2A6EB77E004D2CD7 /* UIImage+Extensions.swift in Sources */,
 				CB06D2232A1642A1006356A1 /* SingleImageViewController.swift in Sources */,
 				CBF179992A697BDC00B7F671 /* ImagesListPresenter.swift in Sources */,
 				CB9A8E8F2A6AC2220074C588 /* ProfileImage.swift in Sources */,
@@ -548,7 +541,6 @@
 				CB9A8E832A6AABE20074C588 /* LikePhotoResult.swift in Sources */,
 				CBF179952A69668600B7F671 /* ProfilePresenter.swift in Sources */,
 				CBC552692A66F7A000D80936 /* WebViewPresenter.swift in Sources */,
-				CB866D592A0A63E900B82387 /* UIColor+Extensions.swift in Sources */,
 				CBA8FFBD2A24D950006C09F2 /* AuthViewController.swift in Sources */,
 				CB92C4F72A2B7C22001E0145 /* OAuth2TokenStorage.swift in Sources */,
 				CBF1798B2A695EB900B7F671 /* ProfileResult.swift in Sources */,

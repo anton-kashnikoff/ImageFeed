@@ -22,7 +22,7 @@ final class TabBarController: UITabBarController {
         profilePresenter.profileViewController = profileViewController
         
         profilePresenter.profileService = ProfileService.shared
-        profileViewController.tabBarItem = UITabBarItem(title: nil, image: UIImage.tabProfileActive, selectedImage: nil)
+        profileViewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(resource: .tabProfileActive), selectedImage: nil)
 
         viewControllers = [imagesListViewController, profileViewController]
     }

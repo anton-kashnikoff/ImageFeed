@@ -32,7 +32,7 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
         imagesListService?.changeLike(photoId: photo.id, isLike: photo.isLiked) { [weak self] result in
             switch result {
             case .success(_):
-                let likeImage = photo.isLiked ? UIImage.likeButtonOff : UIImage.likeButtonOn
+                let likeImage = photo.isLiked ? UIImage(resource: .likeButtonOff) : UIImage(resource: .likeButtonOn)
                 cell.likeButton?.setImage(likeImage, for: .normal)
             case .failure(_):
                 self?.imagesListViewController?.showErrorAlert()
@@ -51,7 +51,7 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
     
     func configCell(_ cell: ImagesListCell, photo: Photo) {
         cell.cellImage.kf.indicatorType = .activity
-        cell.cellImage.kf.setImage(with: URL(string: photo.thumbImageURL), placeholder: UIImage.stub)
+        cell.cellImage.kf.setImage(with: URL(string: photo.thumbImageURL), placeholder: UIImage(resource: .stub))
         
         guard let imagesListHelper else {
             return
@@ -61,7 +61,7 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
             cell.dateLabel.text = imagesListHelper.formatTheDate(date)
         }
         
-        let likeImage = photo.isLiked ? UIImage.likeButtonOn : UIImage.likeButtonOff
+        let likeImage = photo.isLiked ? UIImage(resource: .likeButtonOn) : UIImage(resource: .likeButtonOff)
         cell.likeButton.setImage(likeImage, for: .normal)
     }
 }

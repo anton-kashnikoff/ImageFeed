@@ -26,7 +26,7 @@ final class ProfilePresenter: ProfilePresenterProtocol {
             return
         }
 
-        let processor = RoundCornerImageProcessor(cornerRadius: 16, backgroundColor: UIColor.ypBlack)
+        let processor = RoundCornerImageProcessor(cornerRadius: 16, backgroundColor: UIColor(resource: .ypBlack))
         profileViewController?.profileImageView.kf.indicatorType = .activity
         profileViewController?.profileImageView.kf.setImage(with: URL(string: profileImagePath), options: [.processor(processor)])
     }
